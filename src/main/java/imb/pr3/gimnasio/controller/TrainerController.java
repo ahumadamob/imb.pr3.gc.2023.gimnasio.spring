@@ -1,5 +1,9 @@
 package imb.pr3.gimnasio.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,51 +22,51 @@ import imb.pr3.gimnasio.service.iTrainerService;
 @RequestMapping("/api/v1/trainer")
 public class TrainerController {
 
-	private iTrainerService repo;
+	List<Trainer> trainers = new ArrayList<Trainer>();
+	
+	@Autowired
+	iTrainerService service;
 	
 	@GetMapping("")
-	public ResponseEntity<?> getAllTrainers() {
+	public List<Trainer> getAllTrainers() {
 	
-		try {
-			return ResponseEntity.status(HttpStatus.OK).body(repo.getAllTrainers());
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error al obtener objetos trainer.");
-		}
+		return service.getAllTrainers();
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity <?> getTrainerById(@PathVariable Integer id) {
-		try {
-			return ResponseEntity.status(HttpStatus.OK).body(repo.getTrainerById(id));
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error al obtener objeto trainer.");
+	public ResponseEntity <Object> getTrainerById(@PathVariable Integer id) {
+		Trainer trainer = service.getTrainerById(id);
+		if (trainer == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró un entrenador con el ID proporcionado");
+		} else {
+			return ResponseEntity.ok(trainer);
 		}
 	}
 	
 	@PostMapping("")
-	public ResponseEntity <?> saveTrainer(@RequestBody Trainer entity){
-		try {
-			return ResponseEntity.status(HttpStatus.OK).body(repo.saveTrainer(entity));
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al crear entidad.");
-		}
+	public Trainer saveTrainer(@RequestBody Trainer entity){
+		return service.saveTrainer(entity);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity <?> editTrainer(@PathVariable Integer id, @RequestBody Trainer entity){
-		try {
-			return ResponseEntity.status(HttpStatus.OK).body(repo.editTrainer(id,entity));
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al editar la entidad");
+	public ResponseEntity <Object> editTrainer(@RequestBody Trainer entity){
+		Trainer existingTrainer = service.getTrainerById(entity.getId());
+		if (existingTrainer == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró un entrenador con el ID proporcionado");
+		} else {
+			Trainer updatedTrainer = service.editTrainer(entity);
+			return ResponseEntity.ok(updatedTrainer);
 		}
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity <?> deleteTrainer(@PathVariable Integer id){
-		try {
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(repo.deleteTrainer(id));
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error eliminando entidad.");
+	public ResponseEntity <Object> deleteTrainer(@PathVariable Integer id){
+		Trainer trainer = service.getTrainerById(id);
+		if (trainer == null) {
+			return ResponseEntity.status(HttpStatus.OK).body("No se encontró un entrenador con el ID proporcionado");
+		} else {
+			service.deleteTrainer(id);
+			return ResponseEntity.status(HttpStatus.OK).body("Entrenador eliminado");
 		}
 	}
 	

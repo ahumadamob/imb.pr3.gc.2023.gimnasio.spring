@@ -6,10 +6,10 @@ import imb.pr3.gimnasio.entity.Trainer;
 
 public interface iTrainerService {
 
-	List<Trainer> getAllTrainers() throws Exception;
-	Trainer getTrainerById(Integer id) throws Exception;
-	Trainer saveTrainer(Trainer trainer) throws Exception;
-	Trainer editTrainer(Integer id, Trainer trainer) throws Exception;
-	boolean deleteTrainer(Integer id) throws Exception;
+	List<Trainer> getAllTrainers();
+	Trainer getTrainerById(Integer id);
+	Trainer saveTrainer(Trainer trainer);
+	Trainer editTrainer(Trainer trainer);
+	Trainer deleteTrainer(Integer id);
 	
 }
