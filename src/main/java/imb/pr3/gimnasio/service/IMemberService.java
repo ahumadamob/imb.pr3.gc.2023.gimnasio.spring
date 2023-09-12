@@ -7,13 +7,13 @@ import imb.pr3.gimnasio.entity.Member;
 
 public interface IMemberService {
 
-public List<Member> buscarTodos() throws Exception;
+public List<Member> buscarTodos();
 	
-	public Member buscarPorId (Integer id)throws Exception;
+	public Member buscarPorId (Integer id);
 	
-	public Member guardar (Member tarea)throws Exception;
+	public Member guardar (Member member);
 	
-	public Member modificar (Integer id, Member tarea) throws Exception;
+	public Member modificar (Integer id, Member member);
 	
-	public boolean borrar (Integer id) throws Exception;
+	public boolean borrar (Integer id);
 }

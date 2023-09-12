@@ -1,5 +1,7 @@
 package imb.pr3.gimnasio.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +27,16 @@ public class MemberController {
 	private IMemberService memberService;
 	
 	@GetMapping("")
-	public ResponseEntity <?> getAll(){
-		try {
-			return ResponseEntity.status(HttpStatus.OK).body(memberService.buscarTodos());
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error, Por Favor Intente mas tarde.\"}");
+	public ResponseEntity <APIResponse<List<Member>>> getAll(){
+		List<Member> member = memberService.buscarTodos();
+		if(member.isEmpty()) {
+			APIResponse<List<Member>> response = new APIResponse<List<Member>> (200, null, memberService.buscarTodos());
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		}else {
+			APIResponse<List<Member>> response = new APIResponse<List<Member>> (200, null, member);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
 		}
+		
 	}
 	
 	@GetMapping("/{id}")
