@@ -4,16 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import imb.pr3.gimnasio.entity.Trainer;
 import imb.pr3.gimnasio.repository.TrainerRepository;
-import imb.pr3.gimnasio.service.iTrainerService;
+import imb.pr3.gimnasio.service.ITrainerService;
 
 @Service
-@Primary
-public class TrainerServiceImpl implements iTrainerService{
+public class TrainerServiceImpl implements ITrainerService{
 
 	@Autowired
 	TrainerRepository repo;
@@ -43,11 +41,7 @@ public class TrainerServiceImpl implements iTrainerService{
 		return trainer;
 	}
 
-	@Override
-	public Trainer editTrainer(Trainer trainer) {
-		repo.save(trainer);
-		return trainer;
-	}
+
 
 	@Override
 	public Trainer deleteTrainer(Integer id) {
