@@ -10,7 +10,7 @@ public class GymClass {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	private String name;
 	private Integer day;
 	private Integer time;
@@ -21,7 +21,7 @@ public class GymClass {
 
 	}
 
-	public GymClass(int id, String name, Integer day, Integer time, int maxCapacity, int trainerId) {
+	public GymClass(Integer id, String name, Integer day, Integer time, int maxCapacity, int trainerId) {
 		this.id = id;
 		this.name = name;
 		this.day = day;
@@ -30,7 +30,7 @@ public class GymClass {
 		this.trainerId = trainerId;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
