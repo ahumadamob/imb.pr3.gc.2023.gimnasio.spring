@@ -50,5 +50,19 @@ public class TrainerServiceImpl implements ITrainerService{
 		
 	}
 
+	
+	public boolean exists(Integer id) {
+		if(id == null) {
+			return false;
+		} else {
+			Trainer trainer = getTrainerById(id);
+			if(trainer == null) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+	}
+
 
 }
