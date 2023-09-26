@@ -21,7 +21,6 @@ public class TrainerServiceImpl implements ITrainerService{
 	public List<Trainer> getAllTrainers() {
 		
 			return repo.findAll();
-		
 	}
 
 	@Override

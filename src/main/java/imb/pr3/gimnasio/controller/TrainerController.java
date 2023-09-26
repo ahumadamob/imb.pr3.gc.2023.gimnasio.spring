@@ -57,7 +57,6 @@ public class TrainerController {
 		
 	}
 	
-	
 	@PostMapping("")
 	public ResponseEntity<APIResponse<Trainer>> save(@RequestBody Trainer entity){
 		

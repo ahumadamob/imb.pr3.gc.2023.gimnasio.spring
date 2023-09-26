@@ -11,5 +11,4 @@ public interface ITrainerService {
 	Trainer saveTrainer(Trainer trainer);
 	Trainer deleteTrainer(Integer id);
 	boolean exists(Integer id);
-	
 }
