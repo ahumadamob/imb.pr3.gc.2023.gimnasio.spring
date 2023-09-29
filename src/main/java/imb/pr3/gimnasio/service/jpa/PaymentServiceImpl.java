@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import imb.pr3.gimnasio.entity.Payment;
 import imb.pr3.gimnasio.repository.PaymentRepository;
 import imb.pr3.gimnasio.service.IPaymentService;
 
+@Service
 public class PaymentServiceImpl implements IPaymentService{
 	
 	@Autowired
