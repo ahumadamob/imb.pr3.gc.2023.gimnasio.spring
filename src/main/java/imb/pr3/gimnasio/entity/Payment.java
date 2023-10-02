@@ -17,8 +17,10 @@ public class Payment {
 	private Date payment_date;
 	private Integer memberId;
 	
-	
-	
+	/*@ManyToOne
+	@JoinColumn(name = "member_id")
+	private Member member;
+	*/
 	
 	
 	public Payment() {

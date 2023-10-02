@@ -1,12 +1,11 @@
 package imb.pr3.gimnasio.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,101 +13,57 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import imb.pr3.gimnasio.entity.Payment;
 import imb.pr3.gimnasio.service.IPaymentService;
+import imb.pr3.gimnasio.util.ResponseUtil;
+import jakarta.validation.ConstraintViolationException;
 
 @RestController
 @RequestMapping("/api/v1/payment")
 public class PaymentController {
 
 	@Autowired
-	IPaymentService service;
+	IPaymentService paymentService;
 	
 	@GetMapping("")
-	public APIResponse<List<Payment>> getAll(){
-		List<Payment> paymentList = service.getAllPayments();
-		List<String> messages = new ArrayList<>();
-		messages.add("Listado de pagos mostrado con éxito.");
-		APIResponse<List<Payment>>response = new APIResponse<>(200, messages, paymentList);
-		
-		return response;
-		
+	public ResponseEntity<APIResponse<List<Payment>>> getAllPayments(){
+		return paymentService.getAll().isEmpty() ? ResponseUtil.notFound("No se encuentra ningún registro. Para utilizar esta función, primero debe crearlos.")
+									             : ResponseUtil.success(paymentService.getAll());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<APIResponse<Payment>> getById(@PathVariable Integer id) {
-		List<String> messages = new ArrayList<>();
-		Integer status;
-		Payment paymentById = service.getPaymentById(id);
-		
-		if (service.exists(id)) {
-			status = HttpStatus.OK.value();
-			messages.add("Entrenador encontrado.");
-		} else {
-			status = HttpStatus.BAD_REQUEST.value();
-			messages.add("No se encuentra un entrenador con ese ID");
-		}
-		
-		APIResponse<Payment> response = new APIResponse<>(status, messages, paymentById);
-		return ResponseEntity.status(status).body(response);
+	public ResponseEntity<APIResponse<Payment>> getPaymentById(@PathVariable Integer id) {
+		return paymentService.exists(id) ? ResponseUtil.success(paymentService.getById(id))
+										 : ResponseUtil.notFound("No es encontró ningún pago con ese ID");
 	}
 	
 	@PostMapping("")
-	public ResponseEntity<APIResponse<Payment>> save(@RequestBody Payment entity){
-		List<String> messages = new ArrayList<>();
-		Integer status;
-		APIResponse<Payment> response;
-
-		if (service.exists(entity.getId())) {
-			status = HttpStatus.BAD_REQUEST.value();
-			messages.add("Ese ID ya existe. Para editar, use PUT.");
-			response = new APIResponse<>(status, messages, service.getPaymentById(entity.getId()));
-		} else {
-			status = HttpStatus.OK.value();
-			messages.add("Pago registrado con éxito.");
-			response = new APIResponse<>(status,messages, service.savePayment(entity));
-			
-		}
-		
-		return ResponseEntity.status(status).body(response);
+	public ResponseEntity<APIResponse<Payment>> savePayment(@RequestBody Payment entity){
+		return paymentService.exists(entity.getId()) ? ResponseUtil.badRequest("Ese ID de pago ya existe. Si quieres modificarlo, usa PUT.")
+													 : ResponseUtil.created(paymentService.save(entity));
 	}
 	
 	@PutMapping("")
-	public ResponseEntity<APIResponse<Payment>> edit(@RequestBody Payment entity){
-		List<String> messages = new ArrayList<>();
-		Integer status;
-		APIResponse<Payment> response;
-		if (service.exists(entity.getId())) {
-			status = HttpStatus.OK.value();
-			messages.add("Pago editado correctamente.");
-			response = new APIResponse<>(status, messages, service.savePayment(entity));
-		} else {
-			status = HttpStatus.BAD_REQUEST.value();
-			messages.add("Ese registro no existe.");
-			response = new APIResponse<>(status, messages, null);
-		}
-		return ResponseEntity.status(status).body(response);
-		
+	public ResponseEntity<APIResponse<Payment>> editPayment(@RequestBody Payment entity){
+		return paymentService.exists(entity.getId()) ? ResponseUtil.success(paymentService.save(entity))
+													 : ResponseUtil.badRequest("Ese ID de pago no existe, por lo que no puede editarse.");
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<APIResponse<Payment>> deletePayment(@PathVariable Integer id){
+		return paymentService.exists(id) ? ResponseUtil.success(paymentService.delete(paymentService.getById(id).getId()))
+										 : ResponseUtil.badRequest("Ese ID de pago no existe, por lo que no puede eliminarse.");
 	}
 	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<APIResponse<Payment>> delete(@PathVariable Integer id){
-		Payment payment = service.getPaymentById(id);
-		List<String> messages = new ArrayList<>();
-		Integer status;
-		
-		if (service.exists(id)) {
-			status = HttpStatus.OK.value();
-			messages.add("Pago eliminado.");
-			service.deletePayment(id);
-		} else {
-			status = HttpStatus.BAD_REQUEST.value();
-			messages.add("Ese registro no existe.");
-			
+	//manejador de excepciones para cualquier tipo de error que pueda ser ajeno al programa.
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<APIResponse<Payment>> handleException(Exception ex) {
+		return ResponseUtil.badRequest(ex.getMessage());
 		}
-		APIResponse<Payment> response = new APIResponse<>(status, messages, payment);
-		return ResponseEntity.status(status).body(response);
-	}
+		
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<APIResponse<Payment>> handleConstraintViolationException(ConstraintViolationException ex) {
+		return ResponseUtil.handleConstraintException(ex);
+		}
 }
 	

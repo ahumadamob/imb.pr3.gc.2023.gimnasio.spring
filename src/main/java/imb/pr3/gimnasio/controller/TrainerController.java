@@ -1,12 +1,11 @@
 package imb.pr3.gimnasio.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,100 +16,56 @@ import org.springframework.web.bind.annotation.RestController;
 
 import imb.pr3.gimnasio.entity.Trainer;
 import imb.pr3.gimnasio.service.ITrainerService;
+import imb.pr3.gimnasio.util.ResponseUtil;
+import jakarta.validation.ConstraintViolationException;
 
 @RestController
 @RequestMapping("/api/v1/trainer")
 public class TrainerController {
-
 	
 	@Autowired
-	ITrainerService service;
+	ITrainerService trainerService;
 	
 	@GetMapping("")
-	public APIResponse<List<Trainer>> getAll() {
-		
-		List<String> messages = new ArrayList<>();
-		messages.add("Listado de entrenadores mostrado con éxito.");
-		List<Trainer> trainerList = service.getAllTrainers();
-		
-		APIResponse<List<Trainer>> response = new APIResponse<>(200, messages, trainerList);
-		
-		return response;
+	public ResponseEntity<APIResponse<List<Trainer>>> getAllTrainers() {
+		return trainerService.getAll().isEmpty() ? ResponseUtil.notFound("No se encuentra ningún registro. Para utilizar esta función, primero debe crearlos.")
+								      : ResponseUtil.success(trainerService.getAll());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<APIResponse<Trainer>> getById(@PathVariable Integer id) {
-		List<String> messages = new ArrayList<>();
-		Integer status;
-		Trainer trainerById = service.getTrainerById(id);
-		
-		if (service.exists(id)) {
-			status = HttpStatus.OK.value();
-			messages.add("Entrenador encontrado.");
-		} else {
-			status = HttpStatus.BAD_REQUEST.value();
-			messages.add("No se encuentra un entrenador con ese ID");
-		}
-		
-		APIResponse<Trainer> response = new APIResponse<>(status, messages, trainerById);
-		return ResponseEntity.status(status).body(response);	
-		
+	public ResponseEntity<APIResponse<Trainer>> getTrainerById(@PathVariable Integer id) {
+		return trainerService.exists(id) ? ResponseUtil.success(trainerService.getById(id))
+										 : ResponseUtil.notFound("No se encontró ningún entrenador con ese ID.");
 	}
 	
 	@PostMapping("")
-	public ResponseEntity<APIResponse<Trainer>> save(@RequestBody Trainer entity){
-		
-		List<String> messages = new ArrayList<>();
-		
-		if (service.exists(entity.getId())) {
-			messages.add("Ese usuario ya existe. Para editar, use PUT");
-			APIResponse<Trainer> response = new APIResponse<>(HttpStatus.BAD_REQUEST.value(), messages, service.getTrainerById(entity.getId()));
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-		} else {
-			messages.add("Entrenador creado con éxito");
-			APIResponse<Trainer> response = new APIResponse<>(HttpStatus.OK.value(), messages, service.saveTrainer(entity));
-			return ResponseEntity.status(HttpStatus.OK).body(response);
-		}
-		
+	public ResponseEntity<APIResponse<Trainer>> saveTrainer(@RequestBody Trainer entity){
+		return trainerService.exists(entity.getId()) ? ResponseUtil.badRequest("Ya existe un entrenador con ese ID. Para editar un entrenador, use PUT.")
+													 : ResponseUtil.created(trainerService.save(entity));
 	}
 	
 	@PutMapping("")
-	public ResponseEntity<APIResponse<Trainer>> edit(@RequestBody Trainer entity){
-		List<String> messages = new ArrayList<>();
-		Integer status;
-		
-		if (service.exists(entity.getId())) {
-			status = HttpStatus.OK.value();
-			messages.add("Entrenador editado con éxito");
-			APIResponse<Trainer> response = new APIResponse<>(status, messages, service.saveTrainer(entity));
-			return ResponseEntity.status(status).body(response);
-		} else {
-			status = HttpStatus.BAD_REQUEST.value();
-			messages.add("Ese usuario NO existe.");
-			APIResponse<Trainer> response = new APIResponse<>(status, messages, service.getTrainerById(entity.getId()));
-			return ResponseEntity.status(status).body(response);
-		}
-		
+	public ResponseEntity<APIResponse<Trainer>> editTrainer(@RequestBody Trainer entity){
+		return trainerService.exists(entity.getId()) ? ResponseUtil.success(trainerService.save(entity))
+													 : ResponseUtil.badRequest("El entrenador especificado no existe.");
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<APIResponse<Trainer>> delete(@PathVariable Integer id){
-		Trainer trainer = service.getTrainerById(id);
-		List<String> messages = new ArrayList<>();
-		Integer status;
-		
-		if (service.exists(id)) {
-			status = HttpStatus.OK.value();
-			messages.add("Entrenador eliminado.");
-			service.deleteTrainer(id);
-		} else {
-			status = HttpStatus.BAD_REQUEST.value();
-			messages.add("ID no encontrado.");
-		}
-		
-		APIResponse<Trainer> response = new APIResponse<>(status, messages, trainer);
-		return ResponseEntity.status(status).body(response);
-		
+	public ResponseEntity<APIResponse<Trainer>> deleteTrainer(@PathVariable Integer id){
+		return trainerService.exists(id) ? ResponseUtil.success(trainerService.delete(trainerService.getById(id).getId()))
+										 : ResponseUtil.notFound("No se encontró ningún entrenador con ese ID.");
 	}
+	
+	//manejador de excepciones para cualquier tipo de error que pueda ser ajeno al programa.
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<APIResponse<Trainer>> handleException(Exception ex) {
+		return ResponseUtil.badRequest(ex.getMessage());
+	}
+	
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<APIResponse<Trainer>> handleConstraintViolationException(ConstraintViolationException ex) {
+		return ResponseUtil.handleConstraintException(ex);
+	}
+	
 	
 }

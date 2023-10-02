@@ -6,24 +6,24 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import imb.pr3.gimnasio.entity.Payment;
-import imb.pr3.gimnasio.repository.PaymentRepository;
-import imb.pr3.gimnasio.service.IPaymentService;
+import imb.pr3.gimnasio.entity.MembershipPlan;
+import imb.pr3.gimnasio.repository.MembershipPlanRepository;
+import imb.pr3.gimnasio.service.IMembershipPlan;
 
 @Service
-public class PaymentServiceImpl implements IPaymentService{
+public class MembershipPlanServiceImpl implements IMembershipPlan{
 	
 	@Autowired
-	PaymentRepository repo;
+	MembershipPlanRepository repo;
 
 	@Override
-	public List<Payment> getAll() {
+	public List<MembershipPlan> getAll() {
 		return repo.findAll();
 	}
 
 	@Override
-	public Payment getById(Integer id) {
-		Optional<Payment> optional = repo.findById(id);
+	public MembershipPlan getById(Integer id) {
+		Optional<MembershipPlan> optional = repo.findById(id);
 		if(optional.isPresent()) {
 			return optional.get();
 		} else {
@@ -32,13 +32,13 @@ public class PaymentServiceImpl implements IPaymentService{
 	}
 
 	@Override
-	public Payment save(Payment payment) {
-		repo.save(payment);
-		return payment;
+	public MembershipPlan save(MembershipPlan mPlan) {
+		repo.save(mPlan);
+		return mPlan;
 	}
 
 	@Override
-	public Payment delete(Integer id) {
+	public MembershipPlan delete(Integer id) {
 		repo.deleteById(id);
 		return null;
 	}
@@ -49,8 +49,4 @@ public class PaymentServiceImpl implements IPaymentService{
 	}
 
 	
-	
-	
-	
-
 }

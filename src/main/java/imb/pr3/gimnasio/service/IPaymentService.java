@@ -6,10 +6,10 @@ import imb.pr3.gimnasio.entity.Payment;
 
 public interface IPaymentService {
 	
-	List<Payment> getAllPayments();
-	Payment getPaymentById(Integer id);
-	Payment savePayment(Payment payment);
-	Payment deletePayment(Integer id);
+	List<Payment> getAll();
+	Payment getById(Integer id);
+	Payment save(Payment payment);
+	Payment delete(Integer id);
 	boolean exists(Integer id);
 
 }
