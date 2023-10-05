@@ -1,4 +1,4 @@
-package imb3.progra3.entity;
+package imb.pr3.gimnasio.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
