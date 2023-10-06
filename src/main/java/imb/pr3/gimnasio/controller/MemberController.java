@@ -28,9 +28,9 @@ public class MemberController {
 	
 	@GetMapping("")
 	public ResponseEntity <APIResponse<List<Member>>> getAllMembers(){
-		List<Member> member = memberService.buscarTodos();
+		List<Member> member = memberService.getAll();
 		if(member.isEmpty()) {
-			APIResponse<List<Member>> response = new APIResponse<List<Member>> (200, null, memberService.buscarTodos());
+			APIResponse<List<Member>> response = new APIResponse<List<Member>> (200, null, memberService.getAll());
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		}else {
 			APIResponse<List<Member>> response = new APIResponse<List<Member>> (200, null, member);
@@ -42,7 +42,7 @@ public class MemberController {
 	@GetMapping("/{id}")
 	public ResponseEntity <?> getOne(@PathVariable Integer id){
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(memberService.buscarPorId(id));
+			return ResponseEntity.status(HttpStatus.OK).body(memberService.getById(id));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"La Tarea no existe.\"}");
 		}
@@ -51,7 +51,7 @@ public class MemberController {
 	@PostMapping("")
 	public ResponseEntity <?> save(@RequestBody Member entity){
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(memberService.guardar(entity));
+			return ResponseEntity.status(HttpStatus.OK).body(memberService.save(entity));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error, Por Favor Intente mas tarde.\"}");
 		}
@@ -60,7 +60,7 @@ public class MemberController {
 	@PutMapping("/{id}")
 	public ResponseEntity <?> edit(@PathVariable Integer id, @RequestBody Member entity){
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(memberService.modificar(id, entity));
+			return ResponseEntity.status(HttpStatus.OK).body(memberService.edit(id, entity));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error al editar, Por Favor Intente mas tarde.\"}");
 		}
@@ -69,7 +69,7 @@ public class MemberController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity <?> delete(@PathVariable Integer id){
 		try {
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(memberService.borrar(id));
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(memberService.delete(id));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error al borrar, La tarea no existe.\"}");
 		}
