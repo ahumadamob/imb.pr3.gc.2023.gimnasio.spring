@@ -27,7 +27,7 @@ public class MemberController {
 	private IMemberService memberService;
 	
 	@GetMapping("")
-	public ResponseEntity <APIResponse<List<Member>>> getAll(){
+	public ResponseEntity <APIResponse<List<Member>>> getAllMembers(){
 		List<Member> member = memberService.buscarTodos();
 		if(member.isEmpty()) {
 			APIResponse<List<Member>> response = new APIResponse<List<Member>> (200, null, memberService.buscarTodos());
