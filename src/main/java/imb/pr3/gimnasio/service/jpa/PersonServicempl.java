@@ -1,14 +1,12 @@
-package imb3.progra3.service.jpa;
+package imb.pr3.gimnasio.service.jpa;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import imb3.progra3.entity.Person;
-import imb3.progra3.repository.PersonRepository;
-import imb3.progra3.service.IPersonService;
+import imb.pr3.gimnasio.entity.Person;
+import imb.pr3.gimnasio.repository.PersonRepository;
+import imb.pr3.gimnasio.service.IPersonService;
 
 @Service
 public class PersonServicempl implements IPersonService {
@@ -44,4 +42,18 @@ public class PersonServicempl implements IPersonService {
     public void deletePerson(Integer id) {
     	repo.deleteById(id);
     }
+    
+    
+    public boolean exists(Integer id) {
+		if(id == null) {
+			return false;
+		} else {
+			Person person = getPersonById(id);
+			if(person == null) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+	}
 }

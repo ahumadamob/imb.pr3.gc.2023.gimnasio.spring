@@ -1,7 +1,8 @@
-package imb3.progra3.service;
+package imb.pr3.gimnasio.service;
 
 import java.util.List;
-import imb3.progra3.entity.Person;
+
+import imb.pr3.gimnasio.entity.Person;
 
 public interface IPersonService {
 	
@@ -10,6 +11,7 @@ public interface IPersonService {
     Person createPerson(Person person);
     Person editPerson(Integer id, Person person);
     void deletePerson(Integer id);
+    boolean exists(Integer id);
 	
 
 }
