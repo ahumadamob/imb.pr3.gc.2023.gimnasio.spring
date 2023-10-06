@@ -20,13 +20,13 @@ public class GymClassServiceImpl implements iGymClassService{
 	GymClassRepository repo;
 
 	@Override
-	public List<GymClass>getAllGymClasses() {
+	public List<GymClass>getAll() {
 		List<GymClass> gymClasses = repo.findAll();
 		return gymClasses;
 	}
 
 	@Override
-	public GymClass getGymClassById(Integer id){
+	public GymClass getById(Integer id){
 		Optional<GymClass> optional = repo.findById(id);
 
 		if(optional.isPresent()) {
@@ -38,21 +38,13 @@ public class GymClassServiceImpl implements iGymClassService{
 	}
 
 	@Override
-	public GymClass createGymClass(GymClass gymclass){
+	public GymClass save(GymClass gymclass){
 		gymclass = repo.save(gymclass);
 		return gymclass;
 	}
 
 	@Override
-	public GymClass editGymClass(Integer id, GymClass gymclass){
-		Optional<GymClass> gymclassOptional = repo.findById(id);
-		GymClass gymclassMod = gymclassOptional.get();
-		gymclassMod = repo.save(gymclass);
-		return gymclassMod;
-	}
-
-	@Override
-	public boolean deleteGymClass(Integer id){
+	public boolean delete(Integer id){
 		if(repo.existsById(id)) {
 			repo.deleteById(id);
 			return true;
@@ -62,5 +54,19 @@ public class GymClassServiceImpl implements iGymClassService{
 		}
 
 	}
+	
+	@Override
+	public boolean exists(Integer id) {
+		if(id == null) {
+			return false;
+		} else {
+			GymClass gymClass = getById(id);
+			if(gymClass == null) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+	} 
 
 }

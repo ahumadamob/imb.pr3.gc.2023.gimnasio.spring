@@ -6,13 +6,13 @@ import imb.pr3.gimnasio.entity.GymClass;
 
 public interface iGymClassService {
 
-	public List<GymClass> getAllGymClasses();
+	public List<GymClass> getAll();
 
-	public GymClass getGymClassById (Integer id);
+	public GymClass getById (Integer id);
 
-	public GymClass createGymClass (GymClass gymclass);
+	public GymClass save (GymClass gymclass);
 
-	public GymClass editGymClass (Integer id, GymClass gymclass);
-
-	public boolean deleteGymClass (Integer id);
+	public boolean delete (Integer id);
+	
+	boolean exists(Integer id);
 }
