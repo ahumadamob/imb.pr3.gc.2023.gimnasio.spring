@@ -24,11 +24,7 @@ public class PaymentServiceImpl implements IPaymentService{
 	@Override
 	public Payment getById(Integer id) {
 		Optional<Payment> optional = repo.findById(id);
-		if(optional.isPresent()) {
-			return optional.get();
-		} else {
-			return null;
-		}
+		return optional.isPresent() ? optional.get() : null;
 	}
 
 	@Override

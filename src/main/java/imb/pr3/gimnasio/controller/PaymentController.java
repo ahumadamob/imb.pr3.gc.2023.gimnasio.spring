@@ -50,8 +50,8 @@ public class PaymentController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<APIResponse<Payment>> deletePayment(@PathVariable Integer id){
-		return paymentService.exists(id) ? ResponseUtil.success(paymentService.delete(paymentService.getById(id).getId()))
+	public ResponseEntity<APIResponse<Payment>> deletePaymentById(@PathVariable Integer id){
+		return paymentService.exists(id) ? ResponseUtil.successDeleted("Pago eliminado correctamente.",paymentService.delete(paymentService.getById(id).getId()))
 										 : ResponseUtil.badRequest("Ese ID de pago no existe, por lo que no puede eliminarse.");
 	}
 	

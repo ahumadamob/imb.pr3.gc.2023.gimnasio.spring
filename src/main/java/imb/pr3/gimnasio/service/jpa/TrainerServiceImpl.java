@@ -25,11 +25,7 @@ public class TrainerServiceImpl implements ITrainerService{
 	@Override
 	public Trainer getById(Integer id) {
 		Optional<Trainer> optional = repo.findById(id);
-		if(optional.isPresent()) {
-			return optional.get();
-		} else {
-			return null;
-		}
+		return optional.isPresent() ? optional.get() : null;
 		
 	}
 

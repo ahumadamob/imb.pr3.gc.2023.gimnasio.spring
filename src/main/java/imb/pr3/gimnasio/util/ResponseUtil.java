@@ -22,6 +22,12 @@ public class ResponseUtil {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
     
+    public static <T> ResponseEntity<APIResponse<T>> successDeleted(String message,T data) {
+        APIResponse<T> response = new APIResponse<T>(HttpStatus.OK.value(), addSingleMessage(message), data);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+    
+    
     public static <T> ResponseEntity<APIResponse<T>> created(T data) {
         APIResponse<T> response = new APIResponse<>(HttpStatus.CREATED.value(), null, data);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

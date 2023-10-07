@@ -51,7 +51,7 @@ public class MembershipPlanController {
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<APIResponse<MembershipPlan>> deleteMembershipPlanById(@PathVariable Integer id){
-		return MembershipPlanService.exists(id) ? ResponseUtil.success(MembershipPlanService.delete(MembershipPlanService.getById(id).getId()))
+		return MembershipPlanService.exists(id) ? ResponseUtil.successDeleted("Plan eliminado correctamente", MembershipPlanService.delete(MembershipPlanService.getById(id).getId()))
 												: ResponseUtil.notFound("No se encontró ningún plan con ese ID.");
 	}
 	
