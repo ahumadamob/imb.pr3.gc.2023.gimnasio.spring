@@ -14,7 +14,10 @@ public class Trainer /*extends Person*/ {
 	private String description;
 	private Integer personId;
 	
-	
+	/*@ManyToOne
+	@JoinColumn(name = "person_id")
+	private Person person;
+	*/
 
 	public Trainer() {
 	}
