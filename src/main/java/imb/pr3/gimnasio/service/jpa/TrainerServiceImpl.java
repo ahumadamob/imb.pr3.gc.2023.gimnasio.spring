@@ -18,36 +18,33 @@ public class TrainerServiceImpl implements ITrainerService{
 	
 	
 	@Override
-	public List<Trainer> getAllTrainers() {
-		
+	public List<Trainer> getAll() {
 			return repo.findAll();
-		
 	}
 
 	@Override
-	public Trainer getTrainerById(Integer id) {
+	public Trainer getById(Integer id) {
 		Optional<Trainer> optional = repo.findById(id);
-		if(optional.isPresent()) {
-			return optional.get();
-		} else {
-			return null;
-		}
+		return optional.isPresent() ? optional.get() : null;
 		
 	}
 
 	@Override
-	public Trainer saveTrainer(Trainer trainer) {
+	public Trainer save(Trainer trainer) {
 		repo.save(trainer);
 		return trainer;
 	}
 
-
-
 	@Override
-	public Trainer deleteTrainer(Integer id) {
+	public Trainer delete(Integer id) {
 		repo.deleteById(id);
 		return null;
 		
+	}
+
+	@Override
+	public boolean exists(Integer id) {
+		return (id == null) ? false : repo.existsById(id);
 	}
 
 
