@@ -2,12 +2,11 @@ package imb.pr3.gimnasio.util;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import imb.pr3.gimnasio.controller.APIResponse;
+
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
