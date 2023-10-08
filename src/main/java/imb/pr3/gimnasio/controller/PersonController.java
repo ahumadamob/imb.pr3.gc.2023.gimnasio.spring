@@ -1,6 +1,5 @@
-package imb3.progra3.controller;
+package imb.pr3.gimnasio.controller;
 
-import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +11,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import imb3.progra3.entity.Person;
-import imb3.progra3.service.IPersonService;
+
+import imb.pr3.gimnasio.entity.Person;
+import imb.pr3.gimnasio.service.IPersonService;
 
 import java.util.List;
 
