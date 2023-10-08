@@ -7,13 +7,15 @@ import imb.pr3.gimnasio.entity.Member;
 
 public interface IMemberService {
 
-public List<Member> buscarTodos();
+	public List<Member> getAll();
 	
-	public Member buscarPorId (Integer id);
+	public Member getById(Integer id);
 	
-	public Member guardar (Member member);
+	public Member save(Member member);
 	
-	public Member modificar (Integer id, Member member);
+	public Member edit(Integer id, Member member);
 	
-	public boolean borrar (Integer id);
+	public Member delete(Integer id);
+	
+	public boolean exists(Integer id);
 }

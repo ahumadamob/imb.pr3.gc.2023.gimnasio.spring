@@ -17,7 +17,7 @@ public class MemberServiceImpl implements IMemberService {
 	MemberRepository repo;
 	
 	@Override
-	public List<Member> buscarTodos(){
+	public List<Member> getAll(){
 		
 		return repo.findAll();
 		/*
@@ -27,7 +27,7 @@ public class MemberServiceImpl implements IMemberService {
 	}
 
 	@Override
-	public Member buscarPorId(Integer id) {
+	public Member getById(Integer id) {
 		Optional<Member> optional = repo.findById(id);
 		
 		if(optional.isPresent()) {
@@ -44,7 +44,7 @@ public class MemberServiceImpl implements IMemberService {
 	}
 
 	@Override
-	public Member guardar(Member member){
+	public Member save(Member member){
 		member = repo.save(member);
 		return member;
 		/*
@@ -54,7 +54,7 @@ public class MemberServiceImpl implements IMemberService {
 	}
 
 	@Override
-	public Member modificar(Integer id, Member member) {
+	public Member edit(Integer id, Member member) {
 		Optional<Member> memberOptional = repo.findById(id);
 		Member memberMod = memberOptional.get();
 		memberMod = repo.save(member);
@@ -68,14 +68,20 @@ public class MemberServiceImpl implements IMemberService {
 	}
 
 	@Override
-	public boolean borrar(Integer id) {
+	public Member delete(Integer id) {
 		repo.deleteById(id);
-		return true;
+		return null;
 		/*
 		 * try { if(repo.existsById(id)) { repo.deleteById(id); return true; } else {
 		 * throw new Exception(); } } catch (Exception e) { throw new
 		 * Exception(e.getMessage()); }
 		 */
+	}
+
+	@Override
+	public boolean exists(Integer id) {
+		// TODO Auto-generated method stub
+		return (id != null)? repo.existsById(id) : false;
 	}
 	
 
