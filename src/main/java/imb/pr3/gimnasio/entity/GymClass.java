@@ -16,18 +16,20 @@ public class GymClass {
 	private Integer time;
 	private int maxCapacity;
 	private int trainerId;
+	private Integer class_id;
 
 	public GymClass() {
 
 	}
 
-	public GymClass(Integer id, String name, Integer day, Integer time, int maxCapacity, int trainerId) {
+	public GymClass(Integer id, String name, Integer day, Integer time, int maxCapacity, int trainerId, Integer class_id) {
 		this.id = id;
 		this.name = name;
 		this.day = day;
 		this.time = time;
 		this.maxCapacity = maxCapacity;
 		this.trainerId = trainerId;
+		this.class_id = class_id;
 	}
 
 	public Integer getId() {
@@ -82,5 +84,13 @@ public class GymClass {
 	@Override
 	public String toString() {
 		return "GymClass [id=" + id + ", name=" + name + ", day=" + day + ", time=" + time + ", maxCapacity=" + maxCapacity + ", trainerId=" + trainerId + "]";
+	}
+
+	public Integer getClass_id() {
+		return class_id;
+	}
+
+	public void setClass_id(Integer class_id) {
+		this.class_id = class_id;
 	}
 }
