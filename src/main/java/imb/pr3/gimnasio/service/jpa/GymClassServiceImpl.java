@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 
 import imb.pr3.gimnasio.entity.GymClass;
 import imb.pr3.gimnasio.repository.GymClassRepository;
-import imb.pr3.gimnasio.service.iGymClassService;
+import imb.pr3.gimnasio.service.IGymClassService;
 
 import java.util.Optional;
 
 @Service
 @Primary
-public class GymClassServiceImpl implements iGymClassService{
+public class GymClassServiceImpl implements IGymClassService{
 
 	@Autowired
 	GymClassRepository repo;
@@ -28,19 +28,12 @@ public class GymClassServiceImpl implements iGymClassService{
 	@Override
 	public GymClass getById(Integer id){
 		Optional<GymClass> optional = repo.findById(id);
-
-		if(optional.isPresent()) {
-			return optional.get();
-		}
-		else {
-			return null;
-		}
+		return optional.orElse(null);
 	}
 
 	@Override
 	public GymClass save(GymClass gymclass){
-		gymclass = repo.save(gymclass);
-		return gymclass;
+		return repo.save(gymclass);
 	}
 
 	@Override
@@ -52,21 +45,11 @@ public class GymClassServiceImpl implements iGymClassService{
 		else {
 			return false;
 		}
-
 	}
 	
 	@Override
 	public boolean exists(Integer id) {
-		if(id == null) {
-			return false;
-		} else {
-			GymClass gymClass = getById(id);
-			if(gymClass == null) {
-				return false;
-			} else {
-				return true;
-			}
-		}
+		return (id == null) ? false: repo.existsById(id);
 	} 
 
 }
