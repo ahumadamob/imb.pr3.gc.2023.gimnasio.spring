@@ -1,33 +1,41 @@
 package imb.pr3.gimnasio.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
-public class Trainer /*extends Person*/ {
+public class Trainer {
 
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String description;
-	private Integer personId;
 	
-	/*@ManyToOne
+	
+	@OneToOne
 	@JoinColumn(name = "person_id")
-	private Person person;
-	*/
+    private Person person;
+	
+	@OneToMany
+	@JoinColumn(name = "trainer_id")
+	private List<GymClass> gymClasses;
 
 	public Trainer() {
 	}
 	
-	
 
-	public Trainer(Integer id, String description, Integer personId) {
+	public Trainer(Integer id, String description, List<GymClass> gymClasses) {
+		super();
 		this.id = id;
 		this.description = description;
-		this.personId = personId;
+		this.gymClasses = gymClasses;
 	}
 
 
@@ -51,13 +59,26 @@ public class Trainer /*extends Person*/ {
 
 
 
-	public Integer getPersonId() {
-		return personId;
+	public List<GymClass> getGymClasses() {
+		return gymClasses;
 	}
 
-	public void setPersonId(Integer personId) {
-		this.personId = personId;
+
+
+	public void setGymClasses(List<GymClass> gymClasses) {
+		this.gymClasses = gymClasses;
 	}
+
+
+	public Person getPerson() {
+		return person;
+	}
+
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
 	
 	
 }
