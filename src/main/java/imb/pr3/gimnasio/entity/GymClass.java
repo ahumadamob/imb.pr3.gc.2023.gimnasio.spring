@@ -17,6 +17,7 @@ public class GymClass {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String name;
 	private Integer day;
 	private Integer time;
@@ -43,6 +44,7 @@ public class GymClass {
 		this.trainer = trainer;
 	}
 
+	//getters & setters	
 	public Integer getId() {
 		return id;
 	}
