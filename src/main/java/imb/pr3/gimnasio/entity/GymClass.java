@@ -1,9 +1,15 @@
 package imb.pr3.gimnasio.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class GymClass {
@@ -11,27 +17,34 @@ public class GymClass {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String name;
 	private Integer day;
 	private Integer time;
 	private int maxCapacity;
-	private int trainerId;
-	private Integer class_id;
+	
+	@OneToOne
+	@JoinColumn(name = "trainer_id")
+	private Trainer trainer;
+	
+	@OneToMany
+	@JoinColumn(name="classReg_id")
+	private List <ClassRegistration> classRegistration = new ArrayList<ClassRegistration>();
 
-	public GymClass() {
+	public GymClass() { 
 
 	}
 
-	public GymClass(Integer id, String name, Integer day, Integer time, int maxCapacity, int trainerId, Integer class_id) {
+	public GymClass(Integer id, String name, Integer day, Integer time, int maxCapacity, Trainer trainer) {
 		this.id = id;
 		this.name = name;
 		this.day = day;
 		this.time = time;
 		this.maxCapacity = maxCapacity;
-		this.trainerId = trainerId;
-		this.class_id = class_id;
+		this.trainer = trainer;
 	}
 
+	//getters & setters	
 	public Integer getId() {
 		return id;
 	}
@@ -72,25 +85,26 @@ public class GymClass {
 		this.maxCapacity = maxCapacity;
 	}
 
-	public int getTrainerId() {
-		return trainerId;
+	public Trainer getTrainer() {
+		return trainer;
 	}
 
-	public void setTrainerId(int trainerId) {
-		this.trainerId = trainerId;
+	public void setTrainer(Trainer trainer) {
+		this.trainer = trainer;
 	}
 
+	public List<ClassRegistration> getClassRegistration() {
+		return classRegistration;
+	}
+
+	public void setClassRegistration(List<ClassRegistration> classRegistration) {
+		this.classRegistration = classRegistration;
+	}
 
 	@Override
 	public String toString() {
-		return "GymClass [id=" + id + ", name=" + name + ", day=" + day + ", time=" + time + ", maxCapacity=" + maxCapacity + ", trainerId=" + trainerId + "]";
+		return "GymClass [id=" + id + ", name=" + name + ", day=" + day + ", time=" + time + ", maxCapacity=" + maxCapacity + ", trainerId=" + trainer + "]";
 	}
 
-	public Integer getClass_id() {
-		return class_id;
-	}
-
-	public void setClass_id(Integer class_id) {
-		this.class_id = class_id;
-	}
+	
 }

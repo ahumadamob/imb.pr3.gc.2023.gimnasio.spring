@@ -1,6 +1,5 @@
 package imb.pr3.gimnasio.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import imb.pr3.gimnasio.entity.GymClass;
-import imb.pr3.gimnasio.service.iGymClassService;
+import imb.pr3.gimnasio.service.IGymClassService;
 import imb.pr3.gimnasio.util.ResponseUtil;
 import jakarta.validation.ConstraintViolationException;
 
@@ -24,8 +23,20 @@ import jakarta.validation.ConstraintViolationException;
 public class GymClassController {
 
 	@Autowired
-	iGymClassService service;
+	IGymClassService service;
 
+	/*método que busca todas las clases de gimnasio disponibles
+	 * Devuelve un objeto ResponseEntity<APIResponse<List<GymClass>>>. 
+	 * Es decir que el método responderá a una solicitud HTTP y 
+	 * devolverá una respuesta encapsulada en un objeto ResponseEntity 
+	 * Retornará una lista de objetos GymClass
+	 * service.getAll es un servicio que recuperará una lista de todas las clases de gimnasio disponibles en este caso, en la bbdd
+	 * isEmpty() verifica si hay alguna clase creada
+	 * "?" es una operación ternaria, en este caso, si la lista está vacía se ejecutará ResponseUtil.notFound()
+	 * Si la lista tiene al menos un elemento, se ejecutará ResponseUtil.success()
+	 * ResponseUtil.notFound() es un método de la clase ResponseUtil que genera una respuesta HTTP del tipo 404, agregando además un mensaje personalizado
+	 * ResponseUtil.success()  genera una respuesta de exito (HTTP 200) y devuelve la lista de clases de gimnasio que obuvo a través de getAll(.
+	 * */
 	@GetMapping("")
 	public ResponseEntity<APIResponse<List<GymClass>>>getAllGymClass() {
 
@@ -58,13 +69,13 @@ public class GymClassController {
 				 : ResponseUtil.notFound("Gym class not found by id.");
 	}
 
-		@ExceptionHandler(Exception.class)
-		public ResponseEntity<APIResponse<GymClass>> handleException(Exception ex) {
-			return ResponseUtil.badRequest(ex.getMessage());
-		}
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<APIResponse<GymClass>> handleException(Exception ex) {
+		return ResponseUtil.badRequest(ex.getMessage());
+	}
 
-		@ExceptionHandler(ConstraintViolationException.class)
-		public ResponseEntity<APIResponse<GymClass>> handleConstraintViolationException(ConstraintViolationException ex) {
-			return ResponseUtil.handleConstraintException(ex);
-		}
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<APIResponse<GymClass>> handleConstraintViolationException(ConstraintViolationException ex) {
+		return ResponseUtil.handleConstraintException(ex);
+	}
 }
