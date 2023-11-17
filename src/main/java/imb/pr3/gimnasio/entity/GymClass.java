@@ -1,9 +1,14 @@
 package imb.pr3.gimnasio.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class GymClass {
@@ -15,21 +20,25 @@ public class GymClass {
 	private Integer day;
 	private Integer time;
 	private int maxCapacity;
-	private int trainerId;
-	private Integer class_id;
+	
+	@ManyToOne
+    @JoinColumn(name = "trainer_id")
+    private Trainer trainer;
+	
+	@OneToMany
+	@JoinColumn(name = "gymclass_id")
+	private List<ClassRegistration> classRegistrations;
 
 	public GymClass() {
 
 	}
 
-	public GymClass(Integer id, String name, Integer day, Integer time, int maxCapacity, int trainerId, Integer class_id) {
+	public GymClass(Integer id, String name, Integer day, Integer time, int maxCapacity, int trainerId) {
 		this.id = id;
 		this.name = name;
 		this.day = day;
 		this.time = time;
 		this.maxCapacity = maxCapacity;
-		this.trainerId = trainerId;
-		this.class_id = class_id;
 	}
 
 	public Integer getId() {
@@ -72,25 +81,10 @@ public class GymClass {
 		this.maxCapacity = maxCapacity;
 	}
 
-	public int getTrainerId() {
-		return trainerId;
-	}
-
-	public void setTrainerId(int trainerId) {
-		this.trainerId = trainerId;
-	}
-
 
 	@Override
 	public String toString() {
-		return "GymClass [id=" + id + ", name=" + name + ", day=" + day + ", time=" + time + ", maxCapacity=" + maxCapacity + ", trainerId=" + trainerId + "]";
+		return "GymClass [id=" + id + ", name=" + name + ", day=" + day + ", time=" + time + ", maxCapacity=" + maxCapacity + ", trainer_id=" + trainer + "]";
 	}
 
-	public Integer getClass_id() {
-		return class_id;
-	}
-
-	public void setClass_id(Integer class_id) {
-		this.class_id = class_id;
-	}
 }

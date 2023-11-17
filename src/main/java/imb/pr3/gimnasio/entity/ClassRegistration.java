@@ -2,41 +2,58 @@ package imb.pr3.gimnasio.entity;
 
 import java.util.Date;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
 public class ClassRegistration {
 
-	private int classRegistration_id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 	private float salary;
 	private Date date_registration;
 	private String attendance_status;
 
-	private int member_id;
-	private int class_id;
+	@ManyToOne
+	@JoinColumn(name = "member_id")
+	private Member member;
+	
+	@ManyToOne
+	@JoinColumn(name = "gymclass_id")
+	private GymClass gymclass;;
 
 	public ClassRegistration() {
 	}
 
-	public ClassRegistration(int classRegistration_id, float salary, Date date_registration, String attendance_status,
-			int member_id, int class_id) {
-		this.classRegistration_id = classRegistration_id;
+	
+	public ClassRegistration(Integer id, float salary, Date date_registration, String attendance_status,
+			Member member, GymClass gymclass) {
+		super();
+		this.id = id;
 		this.salary = salary;
 		this.date_registration = date_registration;
 		this.attendance_status = attendance_status;
-		this.member_id = member_id;
-		this.class_id = class_id;
+		this.member = member;
+		this.gymclass = gymclass;
 	}
 
 	/**
 	 * @return the classRegistration_id
 	 */
-	public int getClassRegistration_id() {
-		return classRegistration_id;
+	public int getId() {
+		return id;
 	}
 
 	/**
 	 * @param classRegistration_id the classRegistration_id to set
 	 */
-	public void setClassRegistration_id(int classRegistration_id) {
-		this.classRegistration_id = classRegistration_id;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	/**
@@ -81,39 +98,33 @@ public class ClassRegistration {
 		this.attendance_status = attendance_status;
 	}
 
-	/**
-	 * @return the member_id
-	 */
-	public int getMember_id() {
-		return member_id;
+	
+
+	public Member getMember() {
+		return member;
 	}
 
-	/**
-	 * @param member_id the member_id to set
-	 */
-	public void setMember_id(int member_id) {
-		this.member_id = member_id;
+
+	public void setMember(Member member) {
+		this.member = member;
 	}
 
-	/**
-	 * @return the class_id
-	 */
-	public int getClass_id() {
-		return class_id;
+
+	public GymClass getGymclass() {
+		return gymclass;
 	}
 
-	/**
-	 * @param class_id the class_id to set
-	 */
-	public void setClass_id(int class_id) {
-		this.class_id = class_id;
+
+	public void setGymclass(GymClass gymclass) {
+		this.gymclass = gymclass;
 	}
+
 
 	@Override
 	public String toString() {
-		return "ClassRegistration [classRegistration_id=" + classRegistration_id + ", salary=" + salary
+		return "ClassRegistration [classRegistration_id=" + id + ", salary=" + salary
 				+ ", date_registration=" + date_registration + ", attendance_status=" + attendance_status
-				+ ", member_id=" + member_id + ", class_id=" + class_id + "]";
+				+ ", member_id=" + member + ", class_id=" + gymclass+ "]";
 	}
 
 

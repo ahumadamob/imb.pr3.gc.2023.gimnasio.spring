@@ -1,9 +1,13 @@
 package imb.pr3.gimnasio.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class MembershipPlan {
@@ -15,9 +19,10 @@ public class MembershipPlan {
 	private Integer duration_months;
 	private double price;
 	
-	/*@OneToMany(mappedBy = "membershipPlan")
+	
+	@OneToMany
+	@JoinColumn(name= "membership_plan_id")
 	private List<MemberShipTransaction> mshipTransactions;
-	*/
 	
 	public MembershipPlan() {
 	}

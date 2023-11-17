@@ -1,6 +1,5 @@
 package imb.pr3.gimnasio.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import imb.pr3.gimnasio.entity.GymClass;
-import imb.pr3.gimnasio.service.iGymClassService;
+import imb.pr3.gimnasio.service.IGymClassService;
 import imb.pr3.gimnasio.util.ResponseUtil;
 import jakarta.validation.ConstraintViolationException;
 
@@ -24,7 +23,7 @@ import jakarta.validation.ConstraintViolationException;
 public class GymClassController {
 
 	@Autowired
-	iGymClassService service;
+	IGymClassService service;
 
 	@GetMapping("")
 	public ResponseEntity<APIResponse<List<GymClass>>>getAllGymClass() {

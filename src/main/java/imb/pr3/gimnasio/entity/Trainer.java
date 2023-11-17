@@ -3,6 +3,7 @@ package imb.pr3.gimnasio.entity;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,7 +20,7 @@ public class Trainer {
 	private String description;
 	
 	
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "person_id")
     private Person person;
 	
@@ -31,13 +32,14 @@ public class Trainer {
 	}
 	
 
-	public Trainer(Integer id, String description, List<GymClass> gymClasses) {
+
+	public Trainer(Integer id, String description, Person person, List<GymClass> gymClasses) {
 		super();
 		this.id = id;
 		this.description = description;
+		this.person = person;
 		this.gymClasses = gymClasses;
 	}
-
 
 
 	public Integer getId() {

@@ -19,7 +19,24 @@ public class Person {
     private String email;
     private String phone;
     
-    public Integer getId() {
+    public Person(Integer id, String lastName, String firstName, String birthDate, Integer gender, String email,
+			String phone) {
+		this.id = id;
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.birthDate = birthDate;
+		this.gender = gender;
+		this.email = email;
+		this.phone = phone;
+	}
+    
+    
+	public Person() {
+	}
+
+
+
+	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {

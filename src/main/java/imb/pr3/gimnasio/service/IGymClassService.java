@@ -4,7 +4,7 @@ import java.util.List;
 
 import imb.pr3.gimnasio.entity.GymClass;
 
-public interface iGymClassService {
+public interface IGymClassService {
 
 	public List<GymClass> getAll();
 

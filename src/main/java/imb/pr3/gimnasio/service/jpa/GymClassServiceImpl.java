@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 
 import imb.pr3.gimnasio.entity.GymClass;
 import imb.pr3.gimnasio.repository.GymClassRepository;
-import imb.pr3.gimnasio.service.iGymClassService;
+import imb.pr3.gimnasio.service.IGymClassService;
 
 import java.util.Optional;
 
 @Service
 @Primary
-public class GymClassServiceImpl implements iGymClassService{
+public class GymClassServiceImpl implements IGymClassService{
 
 	@Autowired
 	GymClassRepository repo;

@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Payment {
@@ -15,24 +17,23 @@ public class Payment {
 	private Integer id;
 	private double amount;
 	private Date payment_date;
-	private Integer memberId;
 	
-	/*@ManyToOne
+	@ManyToOne
 	@JoinColumn(name = "member_id")
 	private Member member;
-	*/
+	
 	
 	
 	public Payment() {
 	}
 	
-	
-	public Payment(Integer id, double amount, Date payment_date, Integer memberId) {
+
+	public Payment(Integer id, double amount, Date payment_date, Member member) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.payment_date = payment_date;
-		this.memberId = memberId;
+		this.member = member;
 	}
 
 
@@ -54,12 +55,13 @@ public class Payment {
 	public void setPayment_date(Date payment_date) {
 		this.payment_date = payment_date;
 	}
-	public Integer getMemberId() {
-		return memberId;
+	public Member getMember() {
+		return member;
 	}
-	public void setMemberId(Integer memberId) {
-		this.memberId = memberId;
+	public void setMember(Member member) {
+		this.member = member;
 	}
+	
 	
 	
 }
