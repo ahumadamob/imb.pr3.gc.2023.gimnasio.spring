@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class MemberShipTransaction {
@@ -16,18 +18,22 @@ public class MemberShipTransaction {
 
 	private Date date_transaction;
 
-	private int member_id;
+	@ManyToOne
+	@JoinColumn(name = "member_id")
+	private Member member;
 
-	private int memberShipPlan_id;
+	@ManyToOne
+	@JoinColumn(name = "memberShipPlan_id")
+	private MembershipPlan membershipPlan;
 
 	public MemberShipTransaction() {
 	}
 
-	public MemberShipTransaction(int transaction_id, Date date_transaction, int member_id, int memberShipPlan_id) {
+	public MemberShipTransaction(int transaction_id, Date date_transaction, Member member, MembershipPlan membershipPlan) {
 		this.transaction_id = transaction_id;
 		this.date_transaction = date_transaction;
-		this.member_id = member_id;
-		this.memberShipPlan_id = memberShipPlan_id;
+		this.member = member;
+		this.membershipPlan = membershipPlan;
 	}
 
 	/**
@@ -59,40 +65,38 @@ public class MemberShipTransaction {
 	}
 
 	/**
-	 * @return the member_id
+	 * @return the member
 	 */
-	public int getMember_id() {
-		return member_id;
+	public Member getMember() {
+		return member;
 	}
 
 	/**
-	 * @param member_id the member_id to set
+	 * @param member the member to set
 	 */
-	public void setMember_id(int member_id) {
-		this.member_id = member_id;
+	public void setMember(Member member) {
+		this.member = member;
 	}
 
 	/**
-	 * @return the memberShipPlan_id
+	 * @return the membershipPlan
 	 */
-	public int getMemberShipPlan_id() {
-		return memberShipPlan_id;
+	public MembershipPlan getMembershipPlan() {
+		return membershipPlan;
 	}
 
 	/**
-	 * @param memberShipPlan_id the memberShipPlan_id to set
+	 * @param membershipPlan the membershipPlan to set
 	 */
-	public void setMemberShipPlan_id(int memberShipPlan_id) {
-		this.memberShipPlan_id = memberShipPlan_id;
+	public void setMembershipPlan(MembershipPlan membershipPlan) {
+		this.membershipPlan = membershipPlan;
 	}
 
 	@Override
 	public String toString() {
 		return "MemberShipTransaction [transaction_id=" + transaction_id + ", date_transaction=" + date_transaction
-				+ ", member_id=" + member_id + ", memberShipPlan_id=" + memberShipPlan_id + "]";
+				+ ", member=" + member + ", membershipPlan=" + membershipPlan + "]";
 	}
-
-
 
 
 }
