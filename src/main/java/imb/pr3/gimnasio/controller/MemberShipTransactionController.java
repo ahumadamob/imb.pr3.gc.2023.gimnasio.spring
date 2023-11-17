@@ -28,11 +28,26 @@ public class MemberShipTransactionController {
 	@Autowired
 	IMemberShipTransactionService memberShipTransactionService;
 
+	/*método que busca todas las cMemberShipTransaction existentes
+	 * Devuelve un objeto ResponseEntity<APIResponse<List<MemberShipTransaction>>>. 
+	 * Es decir que el método responderá a una solicitud HTTP y devuelve una respuesta encapsulada en un objeto ResponseEntity 
+	 * Retornará una lista de objetos MemberShipTransaction
+	 * service.getAll genera una lista de todas las MemberShipTransaction existentes en la bbdd
+	 * isEmpty() verifica si la tabla MemberShipTransaction de la DB esta vacía es decir si no existen MemberShipTransaction
+	 * "?" es una operación ternaria, en este caso, si la lista está vacía se ejecutará ResponseUtil.notFound()
+	 * Si la lista tiene al menos un elemento, se ejecutará ResponseUtil.success()
+	 * ResponseUtil.notFound() es un método de la clase ResponseUtil que genera una respuesta HTTP del tipo 404, agregando además un mensaje personalizado
+	 * ResponseUtil.success()  genera una respuesta de exito (HTTP 200) y devuelve la lista de MemberShipTransaction.
+	 * */
+	
 	@GetMapping("")
 	public ResponseEntity<APIResponse<List<MemberShipTransaction>>> getAllMembershipPlans() {
 		return memberShipTransactionService.getAll().isEmpty() ? ResponseUtil.notFound("No se encontró ninguna Transaccion.")
 														: ResponseUtil.success(memberShipTransactionService.getAll());
 	}
+	
+	
+	
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<APIResponse<MemberShipTransaction>> getMembershipPlanById(@PathVariable Integer id) {
@@ -40,10 +55,31 @@ public class MemberShipTransactionController {
 												: ResponseUtil.notFound("No se encontró ninguna Transaccion con ese ID.");
 	}
 	
+	
+	/*
+	 * Crea entidad ('entity') "MemberShipTransaction" (Transaccion de Socio, abono de cuota).  
+	 * 
+	 * @param entity ResponseEntity devuelve una respuesta HTTP, indicando que la operacion se concretó.
+	 * 
+	 * @return ResponseEntity cuya respuesta está estandarizada y estructurada, dividida en 'estado', 'datos' y 'mensaje'.
+	 * 		-Si la entidad se crea con éxito, persiste en la BBDD y obtiene como respuesta: '201', la nueva entidad y 'null'. 
+	 * 		-Si ya existe una entidad con el mismo ID, obtiene como respuesta: '400', datos nulos y un mensaje indicando el error.
+	 * 		- Se proporciona un mensaje de error con APIResponse.
+	 * 
+	 * @PostMapping Notacion de Spring que indica que el metodo va a manejar solicitudes HTTP del tipo POST que lleguen a la URL.
+	 * 				Para las pruebas se utilizo Postman.
+	 * 	
+	 * @RequestBody 'MemberShipTransaction entity' toma un objeto 'MemberShipTransaction' como entrada en una solicitud HTTP. Se utiliza en este caso porque se trata de una creacion.
+	 * 			
+	 */
 	@PostMapping("")
 	public ResponseEntity<APIResponse<MemberShipTransaction>> saveMembershipPlan(@RequestBody MemberShipTransaction entity){
+		/* el Operador Ternario verifica si ya existe un MemberShipTransaction con el mismo ID en la BBDD
+		Si ya existe, se retorna con 'ResponseUtil' ResponseEntity del tipo BAD_REQUEST, pasando como parametro String al ResponseUtil un mensaje de error.*/
 		return memberShipTransactionService.exists(entity.getTransaction_id()) ? ResponseUtil.badRequest("Ya existe una Transaccion con ese ID. Para editar un plan, use PUT.")
 															: ResponseUtil.success(memberShipTransactionService.save(entity));
+		/* Si no existe, se retorna con 'ResponseUtil' una 'ResponseEntity' del tipo CREATED, llamando al metodo save() del servicio,
+		   y pasandole como parametro la entidad (entity) al 'ResponseUtil'	*/
 	}
 	
 	@PutMapping("")
@@ -52,7 +88,7 @@ public class MemberShipTransactionController {
 															: ResponseUtil.notFound("No se encontró ninguna Transaccion con ese ID.");
 	}
 	
-	/*
+	/* VER PORQUE NO FUNCIONA
 	@DeleteMapping("/{id}")
 	public ResponseEntity<APIResponse<MemberShipTransaction>> deleteMembershipTransactionById(@PathVariable Integer id){
 		return memberShipTransactionService.exists(id) ? ResponseUtil.successDeleted("Transaccion eliminado correctamente", memberShipTransactionService.delete(memberShipTransactionService.getById(id).getTransaction_id()))
