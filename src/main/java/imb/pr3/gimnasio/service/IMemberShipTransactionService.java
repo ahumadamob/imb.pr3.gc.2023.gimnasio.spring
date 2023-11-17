@@ -17,4 +17,6 @@ public interface IMemberShipTransactionService {
 	public boolean delete (Integer id);
 
 	public boolean exists(Integer id);
+	
+	public List<MemberShipTransaction> findEnable(boolean enable);
 }

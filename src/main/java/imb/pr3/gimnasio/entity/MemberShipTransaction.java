@@ -17,6 +17,8 @@ public class MemberShipTransaction {
 	private int transaction_id;
 
 	private Date date_transaction;
+	
+	private boolean enable;
 
 	@ManyToOne
 	@JoinColumn(name = "member_id")
@@ -29,9 +31,12 @@ public class MemberShipTransaction {
 	public MemberShipTransaction() {
 	}
 
-	public MemberShipTransaction(int transaction_id, Date date_transaction, Member member, MembershipPlan membershipPlan) {
+	public MemberShipTransaction(int transaction_id, Date date_transaction, boolean enable, Member member,
+			MembershipPlan membershipPlan) {
+		super();
 		this.transaction_id = transaction_id;
 		this.date_transaction = date_transaction;
+		this.enable = enable;
 		this.member = member;
 		this.membershipPlan = membershipPlan;
 	}
@@ -65,6 +70,20 @@ public class MemberShipTransaction {
 	}
 
 	/**
+	 * @return the enable
+	 */
+	public boolean isEnable() {
+		return enable;
+	}
+
+	/**
+	 * @param enable the enable to set
+	 */
+	public void setEnable(boolean enable) {
+		this.enable = enable;
+	}
+
+	/**
 	 * @return the member
 	 */
 	public Member getMember() {
@@ -95,8 +114,9 @@ public class MemberShipTransaction {
 	@Override
 	public String toString() {
 		return "MemberShipTransaction [transaction_id=" + transaction_id + ", date_transaction=" + date_transaction
-				+ ", member=" + member + ", membershipPlan=" + membershipPlan + "]";
+				+ ", enable=" + enable + ", member=" + member + ", membershipPlan=" + membershipPlan + "]";
 	}
+
 
 
 }

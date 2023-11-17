@@ -62,5 +62,10 @@ public class MemberShipTransactionServiceImpl implements IMemberShipTransactionS
 		// TODO Auto-generated method stub
 		return (id != null)? repo.existsById(id) : false;
 	}
+	
+	@Override
+	public List<MemberShipTransaction> findEnable(boolean enable) {
+		return repo.findByEnable(enable);
+	}
 
 }

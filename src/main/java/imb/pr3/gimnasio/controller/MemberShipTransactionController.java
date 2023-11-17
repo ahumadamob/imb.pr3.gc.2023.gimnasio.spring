@@ -104,4 +104,72 @@ public class MemberShipTransactionController {
 	public ResponseEntity<APIResponse<MemberShipTransaction>> handleConstraintViolationException(ConstraintViolationException ex) {
 		return ResponseUtil.handleConstraintException(ex);
 	}*/
+	
+	@GetMapping("/enabled")
+	public ResponseEntity<APIResponse<List<MemberShipTransaction>>> findEnabled() {
+		List<MemberShipTransaction> membershipsEnabled = memberShipTransactionService.findEnable(true);
+		return membershipsEnabled.isEmpty() ? ResponseUtil.notFound("No hay Transacciones habilitadas ")
+				: ResponseUtil.success(membershipsEnabled);
+	}
+	
+	@GetMapping("/disabled")
+	public ResponseEntity<APIResponse<List<MemberShipTransaction>>> findDisabled() {
+		List<MemberShipTransaction> membershipsDisabled = memberShipTransactionService.findEnable(false);
+		return membershipsDisabled.isEmpty() ? ResponseUtil.notFound("No hay Transacciones Deshabilitadas ")
+				: ResponseUtil.success(membershipsDisabled);
+	}
+	
+	@PutMapping("/enabled/{id}")
+	public ResponseEntity<APIResponse<MemberShipTransaction>> enableTransaction(@PathVariable Integer id) throws Exception {
+		MemberShipTransaction memberShipTransaction = 	memberShipTransactionService.getById(id);
+
+		if (memberShipTransaction == null)
+			return ResponseUtil.badRequest("El ID no existe");
+
+		if (!memberShipTransaction.isEnable()) {
+			memberShipTransaction.setEnable(true);
+			return ResponseUtil.success(memberShipTransactionService.save(memberShipTransaction));
+		} else {
+			return ResponseUtil.badRequest("memberShipTransaction ya está habilitada.");
+		}
+	}
+	
+	@PutMapping("/disabled/{id}")
+	public ResponseEntity<APIResponse<MemberShipTransaction>> disableTransaction(@PathVariable Integer id) throws Exception {
+		MemberShipTransaction memberShipTransaction = memberShipTransactionService.getById(id);
+
+		if (memberShipTransaction == null)
+			return ResponseUtil.badRequest("El ID no existe");
+
+		if (memberShipTransaction.isEnable()) {
+			memberShipTransaction.setEnable(false);
+			return ResponseUtil.success(memberShipTransactionService.save(memberShipTransaction));
+		} else {
+			return ResponseUtil.badRequest("memberShipTransaction ya está deshabilitada.");
+		}
+	}
+	
+	@DeleteMapping("/disabled/{id}")
+	public ResponseEntity<APIResponse<Boolean>> deleteDisableTransaction(@PathVariable Integer id) throws Exception {
+		MemberShipTransaction memberShipTransaction = memberShipTransactionService.getById(id);
+
+		if (memberShipTransaction == null)
+			return ResponseUtil.badRequest("El ID no existe");
+
+		return !memberShipTransaction.isEnable() ?
+				ResponseUtil.success(memberShipTransactionService.delete(id)) :
+				ResponseUtil.badRequest("No se puede eliminar. memberShipTransaction no está deshabilitada.");
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<APIResponse<Boolean>> deleteTransaction(@PathVariable Integer id) throws Exception {
+		MemberShipTransaction memberShipTransaction = memberShipTransactionService.getById(id);
+
+		if (memberShipTransaction == null)
+			return ResponseUtil.badRequest("El ID no existe");
+
+		return !memberShipTransaction.isEnable() ?
+				ResponseUtil.success(memberShipTransactionService.delete(id)) :
+				ResponseUtil.badRequest("No se puede eliminar. memberShipTransaction no está deshabilitada.");
+	}
 }
