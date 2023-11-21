@@ -11,4 +11,5 @@ public interface IMembershipPlan {
 	MembershipPlan save(MembershipPlan mPlan);
 	MembershipPlan delete(Integer id);
 	boolean exists(Integer id);
+	List<MembershipPlan> findByEnabled(boolean enabled);
 }

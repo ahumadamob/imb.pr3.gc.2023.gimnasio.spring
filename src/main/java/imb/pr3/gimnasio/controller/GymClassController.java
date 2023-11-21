@@ -23,47 +23,110 @@ import jakarta.validation.ConstraintViolationException;
 public class GymClassController {
 
 	@Autowired
-	IGymClassService service;
+	IGymClassService gymClassService;
 
 	@GetMapping("")
 	public ResponseEntity<APIResponse<List<GymClass>>>getAllGymClass() {
 
-		return service.getAll().isEmpty() ? ResponseUtil.notFound("There are no created gym class. Please, first create a gym class with POST verb")
-			      : ResponseUtil.success(service.getAll());
+		return gymClassService.getAll().isEmpty() ? ResponseUtil.notFound("No se encuentra ningún registro. Para utilizar esta función, primero debe crearlos.")
+			      								  : ResponseUtil.success(gymClassService.getAll());
 	}
+	
+	@GetMapping("/enabled")
+	public ResponseEntity<APIResponse<List<GymClass>>>getAllEnabledGymClasses() {
+		
+		return gymClassService.findByEnabled(true).isEmpty() ? ResponseUtil.notFound("No hay clases del gimnasio que estén habilitadas.")
+															 : ResponseUtil.success(gymClassService.findByEnabled(true));
+	}
+
+	@GetMapping("/disabled")
+	public ResponseEntity<APIResponse<List<GymClass>>>getAllDisabledGymClasses() {
+		
+		return gymClassService.findByEnabled(false).isEmpty() ? ResponseUtil.notFound("No hay clases del gimnasio que estén deshabilitadas.")
+															 : ResponseUtil.success(gymClassService.findByEnabled(false));
+	}
+	
 
 	@GetMapping("/{id}")
 	public ResponseEntity<APIResponse<GymClass>> getGymClassById(@PathVariable("id") Integer id){
-		return service.exists(id) ? ResponseUtil.success(service.getById(id))
-				 : ResponseUtil.notFound("Gym class not found by id.");
+		return gymClassService.exists(id) ? ResponseUtil.success(gymClassService.getById(id))
+				 						  : ResponseUtil.notFound("No se encontró ninguna clase con ese ID.");
 	}
 
 	@PostMapping("")
-	public ResponseEntity<APIResponse<GymClass>> createGymClass(@RequestBody GymClass gymClass) {
+	public ResponseEntity<APIResponse<GymClass>> saveGymClass(@RequestBody GymClass gymClass) {
 
-		return service.exists(gymClass.getId()) ? ResponseUtil.badRequest("Already exists a class for the id. To upgrade, please use PUT.")
-				 : ResponseUtil.created(service.save(gymClass));
+		return gymClassService.exists(gymClass.getId()) ? ResponseUtil.badRequest("Ya existe una clase con ese ID. Para editar una, use PUT.")
+				 										: ResponseUtil.created(gymClassService.save(gymClass));
 	}
 
 	@PutMapping("")
 	public ResponseEntity<APIResponse<GymClass>> editGymClass(@RequestBody GymClass gymClass) {
-		return service.exists(gymClass.getId()) ? ResponseUtil.success(service.save(gymClass))
-				 : ResponseUtil.badRequest("The gym class doesn't exist.");
+		return gymClassService.exists(gymClass.getId()) ? ResponseUtil.success(gymClassService.save(gymClass))
+				 										: ResponseUtil.badRequest("La clase especificada no existe.");
+	}
+	
+	@PutMapping("/enable/{id}")
+	public ResponseEntity<APIResponse<GymClass>> enableGymClass(@PathVariable("id") Integer id){
+		if (gymClassService.exists(id)) {
+			GymClass gymClass = gymClassService.getById(id);
+			if (gymClass.isEnabled()) {
+				return ResponseUtil.badRequest("Esa clase ya está habilitada.");
+			} else {
+				gymClassService.getById(id).setEnabled(true);
+				gymClassService.save(gymClassService.getById(id));
+				return ResponseUtil.success(gymClassService.getById(id));
+			}
+		} else {
+			return ResponseUtil.notFound("No se encuentra esa clase. Revise el ID proporcionado.");
 		}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<APIResponse<Boolean>> deleteGymClass(@PathVariable("id") Integer id){
-		return service.exists(id) ? ResponseUtil.success(service.delete(service.getById(id).getId()))
-				 : ResponseUtil.notFound("Gym class not found by id.");
+	}
+	
+	@PutMapping("/disable/{id}")
+	public ResponseEntity<APIResponse<GymClass>> disableGymClass(@PathVariable("id") Integer id){
+		if (gymClassService.exists(id)) {
+			GymClass gymClass = gymClassService.getById(id);
+			if (gymClass.isEnabled()) {
+				gymClassService.getById(id).setEnabled(false);
+				gymClassService.save(gymClassService.getById(id));
+				return ResponseUtil.success(gymClassService.getById(id));
+			} else {
+				return ResponseUtil.badRequest("Esa clase ya está deshabilitada.");
+			}
+		} else {
+			return ResponseUtil.notFound("No se encuentra esa clase. Revise el ID proporcionado.");
+		}
+
 	}
 
-		@ExceptionHandler(Exception.class)
-		public ResponseEntity<APIResponse<GymClass>> handleException(Exception ex) {
-			return ResponseUtil.badRequest(ex.getMessage());
+	@DeleteMapping("/{id}")
+	public ResponseEntity<APIResponse<GymClass>> deleteGymClass(@PathVariable("id") Integer id){
+		return gymClassService.exists(id) ? ResponseUtil.successDeleted("Clase eliminada correctamente.", gymClassService.delete(gymClassService.getById(id).getId()))
+				 						  : ResponseUtil.notFound("No se encontró ninguna clase con ese ID.");
+	}
+	
+	@DeleteMapping("delete-disabled/{id}")
+	public ResponseEntity<APIResponse<GymClass>> deleteDisabledGymClass(@PathVariable("id") Integer id){
+		if (gymClassService.exists(id)) {
+			GymClass gymClass = gymClassService.getById(id);
+			if (gymClass.isEnabled()) {
+				return ResponseUtil.badRequest("No puede eliminarse la clase porque está habilitada.");
+			} else {
+				return ResponseUtil.successDeleted("Clase eliminada", gymClassService.delete(gymClass.getId()));
+			}
+		} else {
+			return ResponseUtil.badRequest("Esa clase no existe.");
 		}
+	}
 
-		@ExceptionHandler(ConstraintViolationException.class)
-		public ResponseEntity<APIResponse<GymClass>> handleConstraintViolationException(ConstraintViolationException ex) {
-			return ResponseUtil.handleConstraintException(ex);
-		}
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<APIResponse<GymClass>> handleException(Exception ex) {
+		return ResponseUtil.badRequest(ex.getMessage());
+	}
+
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<APIResponse<GymClass>> handleConstraintViolationException(ConstraintViolationException ex) {
+		return ResponseUtil.handleConstraintException(ex);
+	}
 }

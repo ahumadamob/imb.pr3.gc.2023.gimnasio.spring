@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-
 import imb.pr3.gimnasio.entity.GymClass;
 import imb.pr3.gimnasio.repository.GymClassRepository;
 import imb.pr3.gimnasio.service.IGymClassService;
@@ -21,52 +20,38 @@ public class GymClassServiceImpl implements IGymClassService{
 
 	@Override
 	public List<GymClass>getAll() {
-		List<GymClass> gymClasses = repo.findAll();
-		return gymClasses;
+		return repo.findAll();
 	}
-
+	
 	@Override
 	public GymClass getById(Integer id){
 		Optional<GymClass> optional = repo.findById(id);
-
-		if(optional.isPresent()) {
-			return optional.get();
-		}
-		else {
-			return null;
-		}
+		return optional.isPresent() ? optional.get() : null;
 	}
+	
+	@Override
+	public List<GymClass> findByEnabled(boolean enabled) {
+		return repo.findByEnabled(enabled);
+	}
+
 
 	@Override
 	public GymClass save(GymClass gymclass){
-		gymclass = repo.save(gymclass);
+		repo.save(gymclass);
 		return gymclass;
 	}
 
 	@Override
-	public boolean delete(Integer id){
-		if(repo.existsById(id)) {
-			repo.deleteById(id);
-			return true;
-		}
-		else {
-			return false;
-		}
-
+	public GymClass delete(Integer id){
+		repo.deleteById(id);
+		return null;
 	}
 	
 	@Override
 	public boolean exists(Integer id) {
-		if(id == null) {
-			return false;
-		} else {
-			GymClass gymClass = getById(id);
-			if(gymClass == null) {
-				return false;
-			} else {
-				return true;
-			}
-		}
-	} 
+		
+		return (id != null)? repo.existsById(id) : false;
+	}
+
 
 }

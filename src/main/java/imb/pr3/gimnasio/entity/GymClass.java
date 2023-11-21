@@ -2,6 +2,8 @@ package imb.pr3.gimnasio.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,12 +21,15 @@ public class GymClass {
 	private String name;
 	private Integer day;
 	private Integer time;
-	private int maxCapacity;
+	private Integer maxCapacity;
+	private boolean enabled;
 	
+	@JsonIgnore
 	@ManyToOne
     @JoinColumn(name = "trainer_id")
     private Trainer trainer;
 	
+	@JsonIgnore
 	@OneToMany
 	@JoinColumn(name = "gymclass_id")
 	private List<ClassRegistration> classRegistrations;
@@ -33,12 +38,15 @@ public class GymClass {
 
 	}
 
-	public GymClass(Integer id, String name, Integer day, Integer time, int maxCapacity, int trainerId) {
+	public GymClass(Integer id, String name, Integer day, Integer time, Integer maxCapacity, boolean enabled, Trainer trainer, List<ClassRegistration> classRegistrations) {
 		this.id = id;
 		this.name = name;
 		this.day = day;
 		this.time = time;
 		this.maxCapacity = maxCapacity;
+		this.enabled = enabled;
+		this.trainer = trainer;
+		this.classRegistrations = classRegistrations;
 	}
 
 	public Integer getId() {
@@ -81,6 +89,38 @@ public class GymClass {
 		this.maxCapacity = maxCapacity;
 	}
 
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Trainer getTrainer() {
+		return trainer;
+	}
+
+	public void setTrainer(Trainer trainer) {
+		this.trainer = trainer;
+	}
+
+	public List<ClassRegistration> getClassRegistrations() {
+		return classRegistrations;
+	}
+
+	public void setClassRegistrations(List<ClassRegistration> classRegistrations) {
+		this.classRegistrations = classRegistrations;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setMaxCapacity(Integer maxCapacity) {
+		this.maxCapacity = maxCapacity;
+	}
 
 	@Override
 	public String toString() {

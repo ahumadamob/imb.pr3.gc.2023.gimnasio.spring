@@ -2,6 +2,8 @@ package imb.pr3.gimnasio.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,8 +20,9 @@ public class MembershipPlan {
 	private String name;
 	private Integer duration_months;
 	private double price;
+	private boolean enabled; 
 	
-	
+	@JsonIgnore
 	@OneToMany
 	@JoinColumn(name= "membership_plan_id")
 	private List<MemberShipTransaction> mshipTransactions;
@@ -29,11 +32,12 @@ public class MembershipPlan {
 
 
 
-	public MembershipPlan(Integer id, String name, Integer duration_months, double price) {
+	public MembershipPlan(Integer id, String name, Integer duration_months, double price, boolean enabled) {
 		this.id = id;
 		this.name = name;
 		this.duration_months = duration_months;
 		this.price = price;
+		this.enabled = enabled;
 	}
 
 
@@ -82,6 +86,30 @@ public class MembershipPlan {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+
+
+	public List<MemberShipTransaction> getMshipTransactions() {
+		return mshipTransactions;
+	}
+
+
+
+	public void setMshipTransactions(List<MemberShipTransaction> mshipTransactions) {
+		this.mshipTransactions = mshipTransactions;
 	}
 	
 	

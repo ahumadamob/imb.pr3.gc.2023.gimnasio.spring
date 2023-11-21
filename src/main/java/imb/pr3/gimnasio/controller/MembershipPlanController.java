@@ -31,6 +31,18 @@ public class MembershipPlanController {
 														: ResponseUtil.success(MembershipPlanService.getAll());
 	}
 	
+	@GetMapping("/enabled")
+	public ResponseEntity<APIResponse<List<MembershipPlan>>> getAllEnabledMembershipPlans() {
+		return MembershipPlanService.findByEnabled(true).isEmpty() ? ResponseUtil.notFound("No se encontró ningún plan habilitado.")
+														: ResponseUtil.success(MembershipPlanService.findByEnabled(true));
+	}
+	
+	@GetMapping("/disabled")
+	public ResponseEntity<APIResponse<List<MembershipPlan>>> getAllDisabledMembershipPlans() {
+		return MembershipPlanService.findByEnabled(false).isEmpty() ? ResponseUtil.notFound("No se encontró ningún plan deshabilitado.")
+														: ResponseUtil.success(MembershipPlanService.findByEnabled(false));
+	}
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<APIResponse<MembershipPlan>> getMembershipPlanById(@PathVariable Integer id) {
 		return MembershipPlanService.exists(id) ? ResponseUtil.success(MembershipPlanService.getById(id))

@@ -22,6 +22,12 @@ public class MembershipPlanServiceImpl implements IMembershipPlan{
 	}
 
 	@Override
+	public List<MembershipPlan> findByEnabled(boolean enabled) {
+		return repo.findByEnabled(enabled);
+	}
+	
+	
+	@Override
 	public MembershipPlan getById(Integer id) {
 		Optional<MembershipPlan> optional = repo.findById(id);
 		return optional.isPresent() ? optional.get() : null;
@@ -43,6 +49,8 @@ public class MembershipPlanServiceImpl implements IMembershipPlan{
 	public boolean exists(Integer id) {
 		return (id == null) ? false : repo.existsById(id);
 	}
+
+	
 
 	
 }

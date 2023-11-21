@@ -2,6 +2,8 @@ package imb.pr3.gimnasio.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -18,12 +20,13 @@ public class Trainer {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String description;
-	
+	private boolean enabled;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "person_id")
     private Person person;
 	
+	@JsonIgnore
 	@OneToMany
 	@JoinColumn(name = "trainer_id")
 	private List<GymClass> gymClasses;
@@ -33,10 +36,11 @@ public class Trainer {
 	
 
 
-	public Trainer(Integer id, String description, Person person, List<GymClass> gymClasses) {
+	public Trainer(Integer id, String description, boolean enabled, Person person, List<GymClass> gymClasses) {
 		super();
 		this.id = id;
 		this.description = description;
+		this.enabled = enabled;
 		this.person = person;
 		this.gymClasses = gymClasses;
 	}
@@ -57,6 +61,17 @@ public class Trainer {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 

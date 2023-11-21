@@ -3,6 +3,8 @@ package imb.pr3.gimnasio.entity;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -25,72 +27,67 @@ public class Member {
 	@JoinColumn(name = "person_id")
     private Person person;
 	
+	@JsonIgnore
 	@OneToMany
 	@JoinColumn(name = "member_id")
 	private List<Payment> payments;
 	
+	@JsonIgnore
 	@OneToMany
 	@JoinColumn(name = "member_id")
 	private List<ClassRegistration> classregistrations;
 	
+	@JsonIgnore
 	@OneToMany
 	@JoinColumn(name= "member_id")
 	private List<MemberShipTransaction> members;
+	
+	private boolean enabled;
 	
 	public Member() {
 	}
 
 
-	public Member(int member_id, String address, Date registration_date, Person person) {
+	public Member(Integer member_id, String address, Date registration_date, Person person, List<Payment> payments,
+			List<ClassRegistration> classregistrations, List<MemberShipTransaction> members, boolean enabled) {
 		super();
 		this.member_id = member_id;
 		this.address = address;
 		this.registration_date = registration_date;
 		this.person = person;
+		this.payments = payments;
+		this.classregistrations = classregistrations;
+		this.members = members;
+		this.enabled = enabled;
 	}
 
 
-
-	/**
-	 * @return the member_id
-	 */
-	public int getMember_id() {
+	public int getId() {
 		return member_id;
 	}
 
-	/**
-	 * @param member_id the member_id to set
-	 */
-	public void setMember_id(int member_id) {
-		this.member_id = member_id;
+	
+	public void setId(Integer id) {
+		this.member_id = id;
 	}
 
 	
 
-	/**
-	 * @return the address
-	 */
 	public String getAddress() {
 		return address;
 	}
 
-	/**
-	 * @param address the address to set
-	 */
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
-	/**
-	 * @return the registration_date
-	 */
+
 	public Date getRegistration_date() {
 		return registration_date;
 	}
 
-	/**
-	 * @param registration_date the registration_date to set
-	 */
+
 	public void setRegistration_date(Date registration_date) {
 		this.registration_date = registration_date;
 	}
@@ -118,6 +115,35 @@ public class Member {
 	public void setPayments(List<Payment> payments) {
 		this.payments = payments;
 	}
-	
+
+
+	public List<ClassRegistration> getClassregistrations() {
+		return classregistrations;
+	}
+
+
+	public void setClassregistrations(List<ClassRegistration> classregistrations) {
+		this.classregistrations = classregistrations;
+	}
+
+
+	public List<MemberShipTransaction> getMembers() {
+		return members;
+	}
+
+
+	public void setMembers(List<MemberShipTransaction> members) {
+		this.members = members;
+	}
+
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 
 }

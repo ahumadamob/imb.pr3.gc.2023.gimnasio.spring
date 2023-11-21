@@ -26,7 +26,11 @@ public class TrainerServiceImpl implements ITrainerService{
 	public Trainer getById(Integer id) {
 		Optional<Trainer> optional = repo.findById(id);
 		return optional.isPresent() ? optional.get() : null;
-		
+	}
+	
+	@Override
+	public List<Trainer> findByEnabled(boolean enabled) {
+		return repo.findByEnabled(enabled);
 	}
 
 	@Override
@@ -46,6 +50,8 @@ public class TrainerServiceImpl implements ITrainerService{
 	public boolean exists(Integer id) {
 		return (id == null) ? false : repo.existsById(id);
 	}
+
+	
 
 
 }

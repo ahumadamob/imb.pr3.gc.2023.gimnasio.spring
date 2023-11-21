@@ -39,37 +39,26 @@ public class MemberShipTransaction {
 	}
 
 	
-	/**
-	 * @return the transaction_id
-	 */
 	public int getTransaction_id() {
 		return transaction_id;
 	}
 
-	/**
-	 * @param transaction_id the transaction_id to set
-	 */
+
 	public void setTransaction_id(int transaction_id) {
 		this.transaction_id = transaction_id;
 	}
 
-	/**
-	 * @return the date_transaction
-	 */
+
 	public Date getDate_transaction() {
 		return date_transaction;
 	}
 
-	/**
-	 * @param date_transaction the date_transaction to set
-	 */
+
 	public void setDate_transaction(Date date_transaction) {
 		this.date_transaction = date_transaction;
 	}
 
-	/**
-	 * @return the member
-	 */
+
 	public Member getMember() {
 		return member;
 	}

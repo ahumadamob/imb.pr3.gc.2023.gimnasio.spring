@@ -13,9 +13,9 @@ public interface IMemberService {
 	
 	public Member save(Member member);
 	
-	public Member edit(Integer id, Member member);
-	
 	public Member delete(Integer id);
 	
 	public boolean exists(Integer id);
+	
+	public List<Member> findByEnabled(boolean enabled);
 }

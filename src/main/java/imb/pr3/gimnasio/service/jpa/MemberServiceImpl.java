@@ -20,68 +20,37 @@ public class MemberServiceImpl implements IMemberService {
 	public List<Member> getAll(){
 		
 		return repo.findAll();
-		/*
-		 * try { List<Member> members = repo.findAll(); return members; } catch
-		 * (Exception e) { throw new Exception(e.getMessage()); }
-		 */
 	}
 
 	@Override
 	public Member getById(Integer id) {
 		Optional<Member> optional = repo.findById(id);
 		
-		if(optional.isPresent()) {
-			return optional.get();
-		}
-		else {
-			return null;
-		}
-		/*
-		 * try { Optional<Member> memberOptional = repo.findById(id); return
-		 * memberOptional.get(); } catch (Exception e) { throw new
-		 * Exception(e.getMessage()); }
-		 */
+		return optional.isPresent() ? optional.get() : null;
+	
 	}
 
 	@Override
 	public Member save(Member member){
-		member = repo.save(member);
+		repo.save(member);
 		return member;
-		/*
-		 * try { member = repo.save(member); return member; } catch (Exception e) {
-		 * throw new Exception(e.getMessage()); }
-		 */
 	}
 
-	@Override
-	public Member edit(Integer id, Member member) {
-		Optional<Member> memberOptional = repo.findById(id);
-		Member memberMod = memberOptional.get();
-		memberMod = repo.save(member);
-		return memberMod; 
-		
-		/*
-		 * try { Optional<Member> memberOptional = repo.findById(id); Member memberMod =
-		 * memberOptional.get(); memberMod = repo.save(member); return memberMod; }
-		 * catch (Exception e) { throw new Exception(e.getMessage()); }
-		 */
-	}
 
 	@Override
 	public Member delete(Integer id) {
 		repo.deleteById(id);
 		return null;
-		/*
-		 * try { if(repo.existsById(id)) { repo.deleteById(id); return true; } else {
-		 * throw new Exception(); } } catch (Exception e) { throw new
-		 * Exception(e.getMessage()); }
-		 */
 	}
 
 	@Override
 	public boolean exists(Integer id) {
-		// TODO Auto-generated method stub
 		return (id != null)? repo.existsById(id) : false;
+	}
+
+	@Override
+	public List<Member> findByEnabled(boolean enabled) {
+		return repo.findByEnabled(enabled);
 	}
 	
 

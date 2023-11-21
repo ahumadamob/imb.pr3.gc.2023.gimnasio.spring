@@ -12,7 +12,9 @@ public interface IGymClassService {
 
 	public GymClass save (GymClass gymclass);
 
-	public boolean delete (Integer id);
+	public GymClass delete (Integer id);
 	
-	boolean exists(Integer id);
+	public boolean exists(Integer id);
+	
+	public List<GymClass>findByEnabled(boolean enabled);
 }
