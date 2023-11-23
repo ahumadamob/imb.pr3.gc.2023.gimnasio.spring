@@ -22,7 +22,6 @@ public class GymClass {
 	private Integer day;
 	private Integer time;
 	private Integer maxCapacity;
-	private boolean enabled;
 	
 	@JsonIgnore
 	@ManyToOne
@@ -38,13 +37,12 @@ public class GymClass {
 
 	}
 
-	public GymClass(Integer id, String name, Integer day, Integer time, Integer maxCapacity, boolean enabled, Trainer trainer, List<ClassRegistration> classRegistrations) {
+	public GymClass(Integer id, String name, Integer day, Integer time, Integer maxCapacity, Trainer trainer, List<ClassRegistration> classRegistrations) {
 		this.id = id;
 		this.name = name;
 		this.day = day;
 		this.time = time;
 		this.maxCapacity = maxCapacity;
-		this.enabled = enabled;
 		this.trainer = trainer;
 		this.classRegistrations = classRegistrations;
 	}
@@ -89,14 +87,6 @@ public class GymClass {
 		this.maxCapacity = maxCapacity;
 	}
 
-
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
 
 	public Trainer getTrainer() {
 		return trainer;

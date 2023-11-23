@@ -20,7 +20,6 @@ public class Trainer {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String description;
-	private boolean enabled;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "person_id")
@@ -36,11 +35,10 @@ public class Trainer {
 	
 
 
-	public Trainer(Integer id, String description, boolean enabled, Person person, List<GymClass> gymClasses) {
+	public Trainer(Integer id, String description, Person person, List<GymClass> gymClasses) {
 		super();
 		this.id = id;
 		this.description = description;
-		this.enabled = enabled;
 		this.person = person;
 		this.gymClasses = gymClasses;
 	}
@@ -62,19 +60,6 @@ public class Trainer {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
-
 
 	public List<GymClass> getGymClasses() {
 		return gymClasses;

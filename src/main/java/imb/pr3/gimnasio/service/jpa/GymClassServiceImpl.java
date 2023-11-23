@@ -28,11 +28,6 @@ public class GymClassServiceImpl implements IGymClassService{
 		Optional<GymClass> optional = repo.findById(id);
 		return optional.isPresent() ? optional.get() : null;
 	}
-	
-	@Override
-	public List<GymClass> findByEnabled(boolean enabled) {
-		return repo.findByEnabled(enabled);
-	}
 
 
 	@Override

@@ -15,6 +15,5 @@ public interface IGymClassService {
 	public GymClass delete (Integer id);
 	
 	public boolean exists(Integer id);
-	
-	public List<GymClass>findByEnabled(boolean enabled);
+
 }

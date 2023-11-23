@@ -42,14 +42,13 @@ public class Member {
 	@JoinColumn(name= "member_id")
 	private List<MemberShipTransaction> members;
 	
-	private boolean enabled;
 	
 	public Member() {
 	}
 
 
 	public Member(Integer member_id, String address, Date registration_date, Person person, List<Payment> payments,
-			List<ClassRegistration> classregistrations, List<MemberShipTransaction> members, boolean enabled) {
+			List<ClassRegistration> classregistrations, List<MemberShipTransaction> members) {
 		super();
 		this.member_id = member_id;
 		this.address = address;
@@ -58,7 +57,6 @@ public class Member {
 		this.payments = payments;
 		this.classregistrations = classregistrations;
 		this.members = members;
-		this.enabled = enabled;
 	}
 
 
@@ -136,14 +134,5 @@ public class Member {
 		this.members = members;
 	}
 
-
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
 
 }

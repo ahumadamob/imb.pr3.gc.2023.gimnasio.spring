@@ -6,11 +6,11 @@ import imb.pr3.gimnasio.entity.Person;
 
 public interface IPersonService {
 	
-	List<Person> getAllPersons();
-    Person getPersonById(Integer id);
-    Person createPerson(Person person);
-    Person editPerson(Integer id, Person person);
-    void deletePerson(Integer id);
+	List<Person> getAll();
+    Person getById(Integer id);
+    Person save(Person person);
+    Person delete(Integer id);
+    boolean exists(Integer id);
 	
-
 }
+

@@ -40,19 +40,6 @@ public class MemberController {
 										: ResponseUtil.notFound("Ese miembro no existe.");
 	}
 	
-	@GetMapping("/enabled")
-	public ResponseEntity <APIResponse<List<Member>>> getMemberByEnabled(){
-		
-		return memberService.findByEnabled(true).isEmpty() ? ResponseUtil.notFound("No se encuentra ningún miembro habilitado.")
-													: ResponseUtil.success(memberService.findByEnabled(true));
-	}
-	
-	@GetMapping("/disabled")
-	public ResponseEntity <APIResponse<List<Member>>> getMemberByDisabled(){
-		
-		return memberService.findByEnabled(false).isEmpty() ? ResponseUtil.notFound("No se encuentra ningún miembro deshabilitado.")
-													: ResponseUtil.success(memberService.findByEnabled(false));
-	}
 	
 	@PostMapping("")
 	public ResponseEntity<APIResponse<Member>> saveMember(@RequestBody Member entity){
@@ -67,28 +54,7 @@ public class MemberController {
 		return memberService.exists(entity.getId()) ? ResponseUtil.success(memberService.save(entity))
 													: ResponseUtil.badRequest("Ya existe un miembro con ese ID. Para editar uno, use PUT.");
 	}
-	
-	@PutMapping("/enable/{id}")
-	public ResponseEntity<APIResponse<Member>> enableMember(@PathVariable("id") Integer id){
-		if(memberService.exists(id)) {
-			memberService.getById(id).setEnabled(true);
-			memberService.save(memberService.getById(id));
-			return ResponseUtil.success(memberService.getById(id));
-		} else {
-			return ResponseUtil.notFound("No existe un miembro con ese ID.");
-		}
-	}
-	
-	@PutMapping("/disable/{id}")
-	public ResponseEntity<APIResponse<Member>> disableMember(@PathVariable("id") Integer id){
-		if(memberService.exists(id)) {
-			memberService.getById(id).setEnabled(false);
-			memberService.save(memberService.getById(id));
-			return ResponseUtil.success(memberService.getById(id));
-		} else {
-			return ResponseUtil.notFound("No existe un miembro con ese ID.");
-		}
-	}
+
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<APIResponse<Member>> deleteMemberById(@PathVariable Integer id){

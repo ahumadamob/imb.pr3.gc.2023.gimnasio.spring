@@ -38,20 +38,6 @@ public class TrainerController {
 										 : ResponseUtil.notFound("No se encontró ningún entrenador con ese ID.");
 	}
 	
-	@GetMapping("/enabled")
-	public ResponseEntity<APIResponse<List<Trainer>>> getAllEnabledTrainers() {
-		
-		return trainerService.findByEnabled(true).isEmpty() ? ResponseUtil.notFound("No se encontraron entrenadores activos.")
-															: ResponseUtil.success(trainerService.findByEnabled(true));
-	}
-	
-	@GetMapping("/disabled")
-	public ResponseEntity<APIResponse<List<Trainer>>> getAllDisabledTrainers() {
-		
-		return trainerService.findByEnabled(false).isEmpty() ? ResponseUtil.notFound("No se encontraron entrenadores inactivos.")
-															: ResponseUtil.success(trainerService.findByEnabled(false));
-	}
-	
 	
 	/**
 	 * Crea una nueva entidad "Trainer" (entrenador). Viene representada en el elemento 'entity'
@@ -87,59 +73,12 @@ public class TrainerController {
 													 : ResponseUtil.badRequest("El entrenador especificado no existe.");
 	}
 	
-	
-	@PutMapping("/enable/{id}")
-	public ResponseEntity<APIResponse<Trainer>> enableTrainer(@PathVariable Integer id){
-		Trainer trainer = trainerService.getById(id);
-		if (trainerService.exists(id)) {
-			if (trainer.isEnabled()) {
-				return ResponseUtil.badRequest("Ese entrenador ya se encuentra habilitado");
-			} else {
-				trainer.setEnabled(true);
-				trainerService.save(trainer);
-				return ResponseUtil.success(trainer);
-			}
-		} else
-		return ResponseUtil.notFound("No se encontró ningún entrenador con ese ID.");
-	}
-	
-	@PutMapping("/disable/{id}")
-	public ResponseEntity<APIResponse<Trainer>> disableTrainer(@PathVariable Integer id){
-		if (trainerService.exists(id)) {
-			Trainer trainer = trainerService.getById(id);
-			if (trainer.isEnabled() == false) {
-				return ResponseUtil.badRequest("Ese entrenador ya se encuentra deshabilitado");
-			} else {
-				trainer.setEnabled(false);
-				trainerService.save(trainer);
-				return ResponseUtil.success(trainer);
-				
-			}
-		} else {
-			return ResponseUtil.notFound("No se encontró ningún entrenador con ese ID.");
-		}
-	}
-	
-	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<APIResponse<Trainer>> deleteTrainer(@PathVariable Integer id){
 		return trainerService.exists(id) ? ResponseUtil.successDeleted("Entrenador eliminado correctamente.",trainerService.delete(trainerService.getById(id).getId()))
 										 : ResponseUtil.notFound("No se encontró ningún entrenador con ese ID.");
 	}
 	
-	@DeleteMapping("/disabled/{id}")
-	public ResponseEntity<APIResponse<Trainer>> deleteDisabledTrainer(@PathVariable Integer id){
-		Trainer trainer = trainerService.getById(id);
-		if (trainerService.exists(id)) {
-			if (trainer.isEnabled() == false) {
-				return ResponseUtil.successDeleted("Entrenador inactivo eliminado", trainerService.delete(id));
-			} else {
-				return ResponseUtil.badRequest("El entrenador no puede eliminarse porque está habilitado.");
-			}
-		} else {
-			return ResponseUtil.notFound("No se encontró un entrenador con ese ID.");
-		}
-	}
 	
 	//manejador de excepciones para cualquier tipo de error que pueda ser ajeno al programa.
 	@ExceptionHandler(Exception.class)

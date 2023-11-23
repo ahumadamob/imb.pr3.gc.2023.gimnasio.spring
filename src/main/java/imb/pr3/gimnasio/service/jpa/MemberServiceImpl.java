@@ -48,11 +48,6 @@ public class MemberServiceImpl implements IMemberService {
 		return (id != null)? repo.existsById(id) : false;
 	}
 
-	@Override
-	public List<Member> findByEnabled(boolean enabled) {
-		return repo.findByEnabled(enabled);
-	}
-	
 
 
 

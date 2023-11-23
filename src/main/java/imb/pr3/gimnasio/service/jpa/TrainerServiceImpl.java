@@ -28,10 +28,6 @@ public class TrainerServiceImpl implements ITrainerService{
 		return optional.isPresent() ? optional.get() : null;
 	}
 	
-	@Override
-	public List<Trainer> findByEnabled(boolean enabled) {
-		return repo.findByEnabled(enabled);
-	}
 
 	@Override
 	public Trainer save(Trainer trainer) {

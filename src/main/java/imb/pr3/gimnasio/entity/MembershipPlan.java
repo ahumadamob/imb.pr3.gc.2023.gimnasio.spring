@@ -20,7 +20,6 @@ public class MembershipPlan {
 	private String name;
 	private Integer duration_months;
 	private double price;
-	private boolean enabled; 
 	
 	@JsonIgnore
 	@OneToMany
@@ -32,12 +31,11 @@ public class MembershipPlan {
 
 
 
-	public MembershipPlan(Integer id, String name, Integer duration_months, double price, boolean enabled) {
+	public MembershipPlan(Integer id, String name, Integer duration_months, double price) {
 		this.id = id;
 		this.name = name;
 		this.duration_months = duration_months;
 		this.price = price;
-		this.enabled = enabled;
 	}
 
 
@@ -87,19 +85,6 @@ public class MembershipPlan {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-
-
-
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
 
 
 	public List<MemberShipTransaction> getMshipTransactions() {

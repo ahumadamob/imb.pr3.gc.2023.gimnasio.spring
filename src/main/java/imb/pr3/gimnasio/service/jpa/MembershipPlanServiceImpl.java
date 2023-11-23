@@ -21,12 +21,7 @@ public class MembershipPlanServiceImpl implements IMembershipPlan{
 		return repo.findAll();
 	}
 
-	@Override
-	public List<MembershipPlan> findByEnabled(boolean enabled) {
-		return repo.findByEnabled(enabled);
-	}
-	
-	
+
 	@Override
 	public MembershipPlan getById(Integer id) {
 		Optional<MembershipPlan> optional = repo.findById(id);

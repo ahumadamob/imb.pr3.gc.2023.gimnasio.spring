@@ -1,6 +1,8 @@
 package imb.pr3.gimnasio.service.jpa;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,31 +17,30 @@ public class PersonServicempl implements IPersonService {
 	PersonRepository repo; 
 
     @Override
-    public List<Person> getAllPersons() {
+    public List<Person> getAll() {
         return repo.findAll();
     }
 
-    @Override
-    public Person getPersonById(Integer id) {
-        return repo.findById(id).orElse(null);
-    }
+	@Override
+	public Person getById(Integer id) {
+		Optional<Person> optional = repo.findById(id);
+		return optional.isPresent() ? optional.get() : null;
+	}
 
-    @Override
-    public Person createPerson(Person person) {
-        return repo.save(person);
-    }
+	@Override
+	public Person save(Person person) {
+		repo.save(person);
+		return person;
+	}
 
-    @Override
-    public Person editPerson(Integer id, Person person) {
-        if (repo.existsById(id)) {
-            person.setId(id);
-            return repo.save(person);
-        }
-        return null;
-    }
+	@Override
+	public Person delete(Integer id) {
+		repo.deleteById(id);
+		return null;
+	}
 
-    @Override
-    public void deletePerson(Integer id) {
-    	repo.deleteById(id);
-    }
+	@Override
+	public boolean exists(Integer id) {
+		return (id == null) ? false : repo.existsById(id);
+	}
 }

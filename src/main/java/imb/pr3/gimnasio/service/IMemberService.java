@@ -16,6 +16,4 @@ public interface IMemberService {
 	public Member delete(Integer id);
 	
 	public boolean exists(Integer id);
-	
-	public List<Member> findByEnabled(boolean enabled);
 }
