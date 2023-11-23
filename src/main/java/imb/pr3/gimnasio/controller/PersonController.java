@@ -3,6 +3,7 @@ package imb.pr3.gimnasio.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import imb.pr3.gimnasio.entity.Person;
 import imb.pr3.gimnasio.service.IPersonService;
 import imb.pr3.gimnasio.util.ResponseUtil;
+import jakarta.validation.ConstraintViolationException;
 
 import java.util.List;
 
@@ -53,5 +55,15 @@ public class PersonController {
     	return personService.exists(id) ? ResponseUtil.successDeleted("Persona eliminada",personService.delete(id))
     									: ResponseUtil.notFound("No se encontró una persona con ese ID");
     }
+    
+    @ExceptionHandler(Exception.class)
+	public ResponseEntity<APIResponse<Person>> handleException(Exception ex) {
+		return ResponseUtil.badRequest(ex.getMessage());
+	}
+	
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<APIResponse<Person>> handleConstraintViolationException(ConstraintViolationException ex) {
+		return ResponseUtil.handleConstraintException(ex);
+	}
     
 }

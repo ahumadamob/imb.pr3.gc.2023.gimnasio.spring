@@ -19,47 +19,30 @@ public class MemberShipTransactionServiceImpl implements IMemberShipTransactionS
 
 	@Override
 	public List<MemberShipTransaction> getAll() {
-		// TODO Auto-generated method stub
 		return repo.findAll();
 	}
 
 	@Override
 	public MemberShipTransaction getById(Integer id) {
-		// TODO Auto-generated method stub
 		Optional<MemberShipTransaction> optional = repo.findById(id);
-		if(optional.isPresent()) {
-			return optional.get();
-		}else {
-			return null;
-		}
+		return optional.isPresent() ? optional.get() : null;
 
 	}
 
 	@Override
 	public MemberShipTransaction save(MemberShipTransaction memberShipTransaction) {
-		// TODO Auto-generated method stub
 		repo.save(memberShipTransaction);
 		return memberShipTransaction;
 	}
 
 	@Override
-	public MemberShipTransaction edit(Integer id, MemberShipTransaction memberShipTransaction) {
-		// TODO Auto-generated method stub
-		Optional<MemberShipTransaction> memberShipTransactionOptional = repo.findById(id);
-		MemberShipTransaction memberShipTransactionMod = memberShipTransactionOptional.get();
-		memberShipTransactionMod = repo.save(memberShipTransaction);
-		return memberShipTransactionMod;
-	}
-
-	@Override
-	public boolean delete(Integer id) {
-		// TODO Auto-generated method stub
-		return false;
+	public MemberShipTransaction delete(Integer id) {
+		repo.deleteById(id);
+		return null;
 	}
 
 	@Override
 	public boolean exists(Integer id) {
-		// TODO Auto-generated method stub
 		return (id != null)? repo.existsById(id) : false;
 	}
 
