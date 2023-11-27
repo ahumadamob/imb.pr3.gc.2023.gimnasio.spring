@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +19,6 @@ import imb.pr3.gimnasio.util.ResponseUtil;
 import jakarta.validation.ConstraintViolationException;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping(path = "api/v1/member")
 public class MemberController {
 	@Autowired

@@ -3,6 +3,7 @@ package imb.pr3.gimnasio.service.jpa;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import imb.pr3.gimnasio.entity.ClassRegistration;
@@ -12,7 +13,9 @@ import imb.pr3.gimnasio.service.IClassRegistrationService;
 @Service
 public class ClassRegistrationServiceImpl implements IClassRegistrationService {
 
+	@Autowired
 	ClassRegistrationRepository repo;
+	
 	@Override
 	public List<ClassRegistration> getAll() {
 		return repo.findAll();
