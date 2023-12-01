@@ -20,6 +20,7 @@ public class Trainer {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String description;
+	private boolean activo;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "person_id")
@@ -35,10 +36,11 @@ public class Trainer {
 	
 
 
-	public Trainer(Integer id, String description, Person person, List<GymClass> gymClasses) {
+	public Trainer(Integer id, String description, boolean activo, Person person, List<GymClass> gymClasses) {
 		super();
 		this.id = id;
 		this.description = description;
+		this.activo = activo;
 		this.person = person;
 		this.gymClasses = gymClasses;
 	}
@@ -60,6 +62,19 @@ public class Trainer {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	
+	public boolean isActivo() {
+		return activo;
+	}
+
+
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+
+
 
 	public List<GymClass> getGymClasses() {
 		return gymClasses;

@@ -11,4 +11,5 @@ public interface ITrainerService {
 	Trainer save(Trainer trainer);
 	Trainer delete(Integer id);
 	boolean exists(Integer id);
+	List<Trainer> getByActivo(boolean activo);
 }

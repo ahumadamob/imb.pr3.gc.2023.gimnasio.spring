@@ -28,7 +28,11 @@ public class TrainerServiceImpl implements ITrainerService{
 		return optional.isPresent() ? optional.get() : null;
 	}
 	
-
+	@Override
+	public List<Trainer> getByActivo(boolean activo) {
+		return repo.findByActivo(activo);
+	}
+	
 	@Override
 	public Trainer save(Trainer trainer) {
 		repo.save(trainer);
@@ -46,8 +50,4 @@ public class TrainerServiceImpl implements ITrainerService{
 	public boolean exists(Integer id) {
 		return (id == null) ? false : repo.existsById(id);
 	}
-
-	
-
-
 }

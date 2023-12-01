@@ -37,6 +37,17 @@ public class TrainerController {
 										 : ResponseUtil.notFound("No se encontró ningún entrenador con ese ID.");
 	}
 	
+	@GetMapping("/activos")
+	public ResponseEntity<APIResponse<List<Trainer>>>getAllActivos(){
+		return trainerService.getByActivo(true).isEmpty() ? ResponseUtil.notFound("No se ha encontrado ningún entrenador activo")
+														  : ResponseUtil.success(trainerService.getByActivo(true));
+	}
+	
+	@GetMapping("/inactivos")
+	public ResponseEntity<APIResponse<List<Trainer>>>getAllInactivos(){
+		return trainerService.getByActivo(false).isEmpty() ? ResponseUtil.notFound("No se ha encontrado ningún entrenador inactivo")
+														  : ResponseUtil.success(trainerService.getByActivo(false));
+	}
 	
 	/**
 	 * Crea una nueva entidad "Trainer" (entrenador). Viene representada en el elemento 'entity'
