@@ -75,15 +75,5 @@ public class MemberShipTransaction {
 		this.membership_plans = membership_plans;
 	}
 
-	@Override
-	public String toString() {
-		return "MemberShipTransaction [transaction_id=" + transaction_id + ", date_transaction=" + date_transaction
-				+ ", member_id=" + member + ", memberShipPlan_id=" + membership_plans+ "]";
-	}
-
-	
-
-
-
 
 }

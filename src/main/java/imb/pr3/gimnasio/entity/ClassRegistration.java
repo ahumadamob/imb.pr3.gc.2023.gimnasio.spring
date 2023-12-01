@@ -119,14 +119,4 @@ public class ClassRegistration {
 		this.gymclass = gymclass;
 	}
 
-
-	@Override
-	public String toString() {
-		return "ClassRegistration [classRegistration_id=" + id + ", salary=" + salary
-				+ ", date_registration=" + date_registration + ", attendance_status=" + attendance_status
-				+ ", member_id=" + member + ", class_id=" + gymclass+ "]";
-	}
-
-
-
 }

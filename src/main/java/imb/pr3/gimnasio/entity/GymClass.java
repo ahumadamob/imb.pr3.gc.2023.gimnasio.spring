@@ -112,9 +112,4 @@ public class GymClass {
 		this.maxCapacity = maxCapacity;
 	}
 
-	@Override
-	public String toString() {
-		return "GymClass [id=" + id + ", name=" + name + ", day=" + day + ", time=" + time + ", maxCapacity=" + maxCapacity + ", trainer_id=" + trainer + "]";
-	}
-
 }

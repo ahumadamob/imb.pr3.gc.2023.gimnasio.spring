@@ -90,14 +90,6 @@ public class Member {
 		this.registration_date = registration_date;
 	}
 
-	@Override
-	public String toString() {
-		return "Member [member_id=" + member_id + ", first_name=" + person.getFirstName() + ", last_name=" + person.getLastName()
-				+ ", gender=" + ", date_of_birth=" + person.getBirthDate() + ", email=" + person.getEmail() + ", phone_number="
-				+ person.getPhone() + ", address=" + address + ", registration_date=" + registration_date + "]";
-	}
-
-
 	public Person getPerson() {
 		return person;
 	}
